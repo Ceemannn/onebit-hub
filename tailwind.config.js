@@ -33,6 +33,13 @@ export default {
           accent: '#2AD1C2',       // Aqua Pulse
           coral: '#FF6B6B',        // Coral Energy
           indigo: '#3C3F91',       // Royal Indigo
+          warm: '#F59E0B',         // Warm Amber (used in pillars, charts)
+        },
+        // Accent namespace for mega-menu featured sections
+        accent: {
+          aqua: '#06B6D4',         // Cyan/Aqua for Learn highlights
+          indigo: '#6366F1',       // Indigo for Bridge highlights
+          amber: '#F59E0B',        // Amber for warm accents
         },
         neutral: {
           // Neutral Palette

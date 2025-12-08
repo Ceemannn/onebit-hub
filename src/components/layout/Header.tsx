@@ -1,6 +1,6 @@
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { Menu, SunMedium, Moon, ArrowRight } from 'lucide-react'
+import { Menu, SunMedium, Moon, ArrowRight, X, ChevronDown } from 'lucide-react'
 import { cn } from '../../lib/utils.ts'
 import { useTheme } from '../../context/theme.tsx'
 import { buttonVariants } from '../ui/button.tsx'
@@ -101,6 +101,7 @@ export function Header() {
   const { theme, toggleTheme } = useTheme()
   const [megaMenu, setMegaMenu] = useState<MegaMenuKey | null>(null)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [mobileExpanded, setMobileExpanded] = useState<MegaMenuKey | null>(null)
   const menuRefs: Record<MegaMenuKey, React.RefObject<HTMLDivElement | null>> = {
     build: useRef<HTMLDivElement>(null),
     learn: useRef<HTMLDivElement>(null),
@@ -301,37 +302,147 @@ export function Header() {
         </div>
 
         <button
-          className="rounded-full border border-neutral-900/10 p-2 text-neutral-700 md:hidden"
+          className="rounded-full border border-neutral-900/10 p-2 text-neutral-700 dark:border-white/10 dark:text-neutral-200 md:hidden"
           onClick={() => setMobileOpen((prev) => !prev)}
+          aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={mobileOpen}
         >
-          <Menu size={20} />
+          {mobileOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
-      {mobileOpen && (
-        <div className="border-t border-white/10 bg-surface/90 px-6 py-4 md:hidden">
-          <div className="flex flex-col gap-3 text-sm">
+      {/* Mobile Navigation Overlay */}
+      <div
+        className={cn(
+          'fixed inset-0 top-[65px] z-40 bg-surface/98 backdrop-blur-xl transition-all duration-300 md:hidden dark:bg-neutral-950/98',
+          mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        )}
+      >
+        <div className="container h-full overflow-y-auto py-6">
+          <nav className="flex flex-col gap-2">
             {navLinks.map((link) => (
-              <NavLink
-                key={link.label}
-                to={link.to}
-                className={({ isActive }) =>
-                  cn('rounded-xl px-3 py-2 transition hover:bg-white/40', isActive && 'bg-white/60')
-                }
-                onClick={() => setMobileOpen(false)}
-              >
-                {link.label}
-              </NavLink>
+              <div key={link.label}>
+                {link.mega ? (
+                  // Expandable menu item
+                  <div className="rounded-xl border border-neutral-200 bg-white/80 dark:border-neutral-800 dark:bg-neutral-900/80">
+                    <button
+                      onClick={() => setMobileExpanded(mobileExpanded === link.mega ? null : link.mega!)}
+                      className="flex w-full items-center justify-between px-4 py-3 text-left font-medium text-neutral-900 dark:text-white"
+                      aria-expanded={mobileExpanded === link.mega}
+                    >
+                      <span>{link.label}</span>
+                      <ChevronDown
+                        size={18}
+                        className={cn(
+                          'text-neutral-500 transition-transform duration-200',
+                          mobileExpanded === link.mega && 'rotate-180'
+                        )}
+                      />
+                    </button>
+                    {/* Expanded content */}
+                    <div
+                      className={cn(
+                        'overflow-hidden transition-all duration-200',
+                        mobileExpanded === link.mega ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                      )}
+                    >
+                      <div className="border-t border-neutral-200 px-4 py-3 dark:border-neutral-800">
+                        {link.mega === 'build' && (
+                          <div className="space-y-2">
+                            {buildMenu.map((item) => (
+                              <Link
+                                key={item.to}
+                                to={item.to}
+                                onClick={() => setMobileOpen(false)}
+                                className="block rounded-lg p-3 text-sm transition-colors hover:bg-brand-primary/5"
+                              >
+                                <p className="font-medium text-neutral-900 dark:text-white">{item.label}</p>
+                                <p className="mt-0.5 text-xs text-neutral-500 dark:text-neutral-400">{item.description}</p>
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                        {link.mega === 'learn' && (
+                          <div className="space-y-2">
+                            {learnMenu.map((item) => (
+                              <Link
+                                key={item.to}
+                                to={item.to}
+                                onClick={() => setMobileOpen(false)}
+                                className="block rounded-lg p-3 text-sm transition-colors hover:bg-brand-primary/5"
+                              >
+                                <p className="font-medium text-neutral-900 dark:text-white">{item.label}</p>
+                                <p className="mt-0.5 text-xs text-neutral-500 dark:text-neutral-400">{item.description}</p>
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                        {link.mega === 'bridge' && (
+                          <div className="space-y-4">
+                            {bridgeMenu.map((group) => (
+                              <div key={group.label}>
+                                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-neutral-500">{group.label}</p>
+                                <div className="space-y-1">
+                                  {group.items.map((item) => (
+                                    <Link
+                                      key={item.label}
+                                      to={item.to}
+                                      onClick={() => setMobileOpen(false)}
+                                      className="block rounded-lg p-2 text-sm transition-colors hover:bg-brand-primary/5"
+                                    >
+                                      <p className="font-medium text-neutral-900 dark:text-white">{item.label}</p>
+                                    </Link>
+                                  ))}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  // Simple link
+                  <NavLink
+                    to={link.to}
+                    onClick={() => setMobileOpen(false)}
+                    className={({ isActive }) =>
+                      cn(
+                        'block rounded-xl border border-neutral-200 bg-white/80 px-4 py-3 font-medium transition-colors dark:border-neutral-800 dark:bg-neutral-900/80',
+                        isActive
+                          ? 'border-brand-primary/30 bg-brand-primary/5 text-brand-primary'
+                          : 'text-neutral-900 hover:border-brand-primary/20 dark:text-white'
+                      )
+                    }
+                  >
+                    {link.label}
+                  </NavLink>
+                )}
+              </div>
             ))}
-            <button
-              onClick={toggleTheme}
-              className="rounded-xl border border-neutral-900/10 px-3 py-2 text-left text-sm"
+          </nav>
+
+          {/* Mobile footer actions */}
+          <div className="mt-6 space-y-3 border-t border-neutral-200 pt-6 dark:border-neutral-800">
+            <Link
+              to="/contact"
+              onClick={() => setMobileOpen(false)}
+              className={cn(buttonVariants({ size: 'lg' }), 'w-full justify-center')}
             >
-              Toggle {theme === 'light' ? 'Dark' : 'Light'} Mode
+              Book a Discovery Call
+            </Link>
+            <button
+              onClick={() => {
+                toggleTheme()
+              }}
+              className="flex w-full items-center justify-center gap-2 rounded-full border border-neutral-200 bg-white px-4 py-3 text-sm font-medium text-neutral-700 transition-colors hover:border-brand-primary hover:text-brand-primary dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200"
+            >
+              {theme === 'light' ? <Moon size={16} /> : <SunMedium size={16} />}
+              {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
             </button>
           </div>
         </div>
-      )}
+      </div>
     </header>
   )
 }

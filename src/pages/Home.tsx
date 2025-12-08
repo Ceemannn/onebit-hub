@@ -3,6 +3,7 @@ import { ArrowUpRight, Play, Quote } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Button } from '../components/ui/button.tsx'
 import { SectionHeading } from '../components/shared/SectionHeading.tsx'
+import { SegmentedTabs } from '../components/shared/SegmentedTabs.tsx'
 import DotGrid from '../components/shared/DotGrid.tsx'
 import {
   heroPillars,
@@ -35,6 +36,7 @@ export function HomePage() {
 
   const [activeDemoIndex, setActiveDemoIndex] = useState(0)
   const [activeArmIndex, setActiveArmIndex] = useState(0)
+  const [armAutoRotate, setArmAutoRotate] = useState(true)
 
   useEffect(() => {
     if (demoWidgets.length <= 1) return
@@ -47,14 +49,31 @@ export function HomePage() {
   }, [])
 
   useEffect(() => {
-    if (onebitArms.length <= 1) return
+    if (onebitArms.length <= 1 || !armAutoRotate) return
 
     const interval = setInterval(() => {
       setActiveArmIndex((prev) => (prev + 1) % onebitArms.length)
-    }, 4000)
+    }, 5000)
 
     return () => clearInterval(interval)
-  }, [])
+  }, [armAutoRotate])
+
+  // Handler for manual tab selection
+  const handleArmTabChange = (key: string) => {
+    const index = onebitArms.findIndex((arm) => arm.key === key)
+    if (index !== -1) {
+      setActiveArmIndex(index)
+      setArmAutoRotate(false) // Stop auto-rotation when user manually selects
+      // Resume auto-rotation after 10 seconds of inactivity
+      setTimeout(() => setArmAutoRotate(true), 10000)
+    }
+  }
+
+  // Prepare tabs data for SegmentedTabs
+  const armTabs = onebitArms.map((arm) => ({
+    key: arm.key,
+    label: arm.key.charAt(0).toUpperCase() + arm.key.slice(1),
+  }))
 
   return (
     <div className="space-y-24">
@@ -242,11 +261,19 @@ export function HomePage() {
           </div>
           <div className="grid gap-10 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1.3fr)] md:items-center lg:gap-16">
             <div className="space-y-7 lg:space-y-8 max-w-xl" data-animate>
-              <div className="inline-flex items-center gap-3 rounded-lg bg-white/80 px-5 py-2.5 text-sm font-medium text-neutral-800 shadow-soft dark:bg-neutral-900/80 dark:text-neutral-100">
-                <span className="flex h-9 w-9 items-center justify-center rounded bg-gradient-to-br from-brand-primary to-brand-teal text-white text-xs font-semibold">
-                  OB
-                </span>
-                <span className="text-[0.7rem] uppercase tracking-[0.32em] text-neutral-500">Onebit Hub</span>
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="inline-flex items-center gap-3 rounded-lg bg-white/80 px-5 py-2.5 text-sm font-medium text-neutral-800 shadow-soft dark:bg-neutral-900/80 dark:text-neutral-100">
+                  <span className="flex h-9 w-9 items-center justify-center rounded bg-gradient-to-br from-brand-primary to-brand-teal text-white text-xs font-semibold">
+                    OB
+                  </span>
+                  <span className="text-[0.7rem] uppercase tracking-[0.32em] text-neutral-500">Onebit Hub</span>
+                </div>
+                <SegmentedTabs
+                  tabs={armTabs}
+                  activeKey={onebitArms[activeArmIndex].key}
+                  onChange={handleArmTabChange}
+                  size="sm"
+                />
               </div>
               {(() => {
                 const arm = onebitArms[activeArmIndex]

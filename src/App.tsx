@@ -1,5 +1,5 @@
 import { useEffect, lazy, Suspense } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { Header } from './components/layout/Header.tsx'
 import { Footer } from './components/layout/Footer.tsx'
 import { FloatingCta } from './components/layout/FloatingCta.tsx'
@@ -21,6 +21,8 @@ const CorporationsPage = lazy(() => import('./pages/learn/Corporations.tsx').the
 const BridgePage = lazy(() => import('./pages/Bridge.tsx').then(m => ({ default: m.BridgePage })))
 const AboutPage = lazy(() => import('./pages/About.tsx').then(m => ({ default: m.AboutPage })))
 const ContactPage = lazy(() => import('./pages/Contact.tsx').then(m => ({ default: m.ContactPage })))
+const LegalPage = lazy(() => import('./pages/Legal.tsx').then(m => ({ default: m.LegalPage })))
+const NotFoundPage = lazy(() => import('./pages/NotFound.tsx').then(m => ({ default: m.NotFoundPage })))
 
 // Loading component
 const PageLoader = () => (
@@ -55,7 +57,13 @@ function App() {
             <Route path="/bridge" element={<BridgePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
-            <Route path="*" element={<HomePage />} />
+            <Route path="/legal" element={<LegalPage />} />
+            {/* Redirect /learn to /learn/individuals */}
+            <Route path="/learn" element={<Navigate to="/learn/individuals" replace />} />
+            {/* Redirect /build to /build/projects */}
+            <Route path="/build" element={<Navigate to="/build/projects" replace />} />
+            {/* 404 fallback */}
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
       </main>
