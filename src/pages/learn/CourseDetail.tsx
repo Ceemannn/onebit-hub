@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
-import { useParams, Link, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useParams, Link, useNavigate, useSearchParams } from 'react-router-dom'
 import {
     ArrowLeft,
     CheckCircle2,
@@ -14,17 +14,37 @@ import {
 import { courseDetails } from '../../data/courseDetails.ts'
 import { Button } from '../../components/ui/button.tsx'
 import { useGsapReveal } from '../../hooks/useGsapReveal.ts'
+import { generateForexSyllabusPdf } from '../../lib/generateForexSyllabusPdf.ts'
 
 export function CourseDetailPage() {
     const { courseId } = useParams<{ courseId: string }>()
     const navigate = useNavigate()
+    const [searchParams] = useSearchParams()
     const course = courseId ? courseDetails[courseId] : null
     const containerRef = useGsapReveal<HTMLDivElement>()
+    const [isDownloading, setIsDownloading] = useState(false)
+
+    // Handle syllabus download for Forex course
+    const handleDownloadSyllabus = async () => {
+        if (courseId === 'forex-trading') {
+            setIsDownloading(true)
+            try {
+                await generateForexSyllabusPdf()
+            } catch (error) {
+                console.error('Error generating PDF:', error)
+                alert('There was an error generating the syllabus. Please try again.')
+            } finally {
+                setIsDownloading(false)
+            }
+        }
+    }
 
     // Scroll to top on mount
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [courseId])
+
+    const showSuccessBanner = searchParams.get('status') === 'success'
 
     if (!course) {
         return (
@@ -43,7 +63,7 @@ export function CourseDetailPage() {
     return (
         <div ref={containerRef} className="min-h-screen pb-20">
             {/* Breadcrumbs */}
-            <div className="container py-6">
+            <div className="container py-6 space-y-3">
                 <div className="flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400">
                     <Link to="/learn/individuals" className="hover:text-brand-primary transition-colors">
                         Learn
@@ -51,6 +71,18 @@ export function CourseDetailPage() {
                     <span>/</span>
                     <span className="text-neutral-900 font-medium dark:text-white">{course.title}</span>
                 </div>
+
+                {showSuccessBanner && (
+                    <div className="rounded-2xl border border-emerald-300/60 bg-emerald-50/90 px-4 py-3 text-sm text-emerald-900 shadow-sm dark:border-emerald-500/60 dark:bg-emerald-950/60 dark:text-emerald-100 flex items-start gap-3">
+                        <CheckCircle2 className="h-5 w-5 mt-0.5 text-emerald-500 dark:text-emerald-400" />
+                        <div>
+                            <p className="font-semibold">Enrollment successful</p>
+                            <p className="mt-0.5 text-xs text-emerald-900/80 dark:text-emerald-100/80">
+                                We've received your enrollment. You'll get an email shortly with payment confirmation and next steps.
+                            </p>
+                        </div>
+                    </div>
+                )}
             </div>
 
             {/* Hero Section */}
@@ -68,12 +100,35 @@ export function CourseDetailPage() {
                             {course.description}
                         </p>
                         <div className="flex flex-wrap gap-4">
-                            <Button size="lg" className="bg-brand-primary hover:bg-brand-primary/90 text-white border-none">
-                                Enroll Now
-                            </Button>
-                            <Button size="lg" variant="secondary" className="border-white/20 text-white hover:bg-white/10">
-                                Download Syllabus
-                            </Button>
+                            {courseId === 'forex-trading' ? (
+                                <>
+                                    <Button
+                                        size="lg"
+                                        className="bg-brand-primary hover:bg-brand-primary/90 text-white border-none"
+                                        onClick={() => navigate(`/learn/enroll/${courseId}`)}
+                                    >
+                                        Enroll Now
+                                    </Button>
+                                    <Button
+                                        size="lg"
+                                        variant="secondary"
+                                        className="border-white/20 text-white hover:bg-white/10"
+                                        onClick={handleDownloadSyllabus}
+                                        disabled={isDownloading}
+                                    >
+                                        {isDownloading ? 'Generating...' : 'Download Syllabus'}
+                                    </Button>
+                                </>
+                            ) : (
+                                <>
+                                    <Button size="lg" className="bg-brand-primary hover:bg-brand-primary/90 text-white border-none">
+                                        Enroll Now
+                                    </Button>
+                                    <Button size="lg" variant="secondary" className="border-white/20 text-white hover:bg-white/10">
+                                        Download Syllabus
+                                    </Button>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -119,6 +174,62 @@ export function CourseDetailPage() {
                             ))}
                         </div>
                     </section>
+
+                    {course.id === 'forex-trading' && (
+                        <>
+                            <section className="space-y-6">
+                                <h2 className="text-2xl font-bold text-neutral-900 dark:text-white">Daily Habits for Success</h2>
+                                <p className="text-sm text-neutral-700 dark:text-neutral-300">
+                                    Throughout the 6 weeks, commit to:
+                                </p>
+                                <ul className="mt-3 space-y-2 text-sm text-neutral-700 dark:text-neutral-300">
+                                    <li>30-60 minutes of chart time daily</li>
+                                    <li>Journaling at least 3 observations per day</li>
+                                    <li>Reviewing one previous day's price action</li>
+                                    <li>Asking questions in your learning community</li>
+                                    <li>Avoiding live trading until Week 6 completion</li>
+                                </ul>
+                            </section>
+
+                            <section className="space-y-6">
+                                <h2 className="text-2xl font-bold text-neutral-900 dark:text-white">Tools You'll Need</h2>
+                                <ul className="mt-3 space-y-2 text-sm text-neutral-700 dark:text-neutral-300">
+                                    <li>Trading Platform: MetaTrader 4/5 or TradingView</li>
+                                    <li>Demo Account: Start with $10,000 virtual money</li>
+                                    <li>Trading Journal: Spreadsheet or dedicated app</li>
+                                    <li>Economic Calendar: ForexFactory or similar</li>
+                                    <li>Learning Mindset: Patience and discipline</li>
+                                </ul>
+                            </section>
+
+                            <section className="space-y-6">
+                                <h2 className="text-2xl font-bold text-neutral-900 dark:text-white">Success Metrics</h2>
+                                <p className="text-sm text-neutral-700 dark:text-neutral-300">
+                                    By the end of 6 weeks, you should be able to:
+                                </p>
+                                <ul className="mt-3 space-y-2 text-sm text-neutral-700 dark:text-neutral-300">
+                                    <li>Identify market structure confidently</li>
+                                    <li>Spot order blocks and fair value gaps</li>
+                                    <li>Understand liquidity concepts</li>
+                                    <li>Execute trades with proper risk management</li>
+                                    <li>Maintain a 1:2 minimum risk-reward ratio</li>
+                                    <li>Complete top-down analysis independently</li>
+                                </ul>
+                            </section>
+
+                            <section className="space-y-4">
+                                <p className="text-sm text-neutral-700 dark:text-neutral-300">
+                                    Remember: Forex trading is a skill that takes time to master. These 6 weeks are just the
+                                    beginning of your journey. Stay patient, stay disciplined, and never stop learning!
+                                </p>
+                                <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                                    Disclaimer: Trading involves risk. Never trade with money you cannot afford to lose. Always
+                                    start with a demo account and only transition to live trading when consistently profitable over
+                                    at least 3 months.
+                                </p>
+                            </section>
+                        </>
+                    )}
 
                     {/* Instructor */}
                     <section className="space-y-6">

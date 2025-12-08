@@ -18,6 +18,7 @@ const DemoInventoryPage = lazy(() => import('./pages/build/demos/DemoInventory.t
 const IndividualsPage = lazy(() => import('./pages/learn/Individuals.tsx').then(m => ({ default: m.IndividualsPage })))
 const CourseDetailPage = lazy(() => import('./pages/learn/CourseDetail.tsx').then(m => ({ default: m.CourseDetailPage })))
 const CorporationsPage = lazy(() => import('./pages/learn/Corporations.tsx').then(m => ({ default: m.CorporationsPage })))
+const EnrollPage = lazy(() => import('./pages/learn/Enroll.tsx').then(m => ({ default: m.EnrollPage })))
 const BridgePage = lazy(() => import('./pages/Bridge.tsx').then(m => ({ default: m.BridgePage })))
 const AboutPage = lazy(() => import('./pages/About.tsx').then(m => ({ default: m.AboutPage })))
 const ContactPage = lazy(() => import('./pages/Contact.tsx').then(m => ({ default: m.ContactPage })))
@@ -53,6 +54,7 @@ function App() {
             <Route path="/build/demo/buildstock-hommes" element={<DemoInventoryPage />} />
             <Route path="/learn/individuals" element={<IndividualsPage />} />
             <Route path="/learn/course/:courseId" element={<CourseDetailPage />} />
+            <Route path="/learn/enroll/:courseId" element={<EnrollPage />} />
             <Route path="/learn/corporations" element={<CorporationsPage />} />
             <Route path="/bridge" element={<BridgePage />} />
             <Route path="/about" element={<AboutPage />} />

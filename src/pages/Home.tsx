@@ -541,24 +541,24 @@ export function HomePage() {
                 </div>
               </div>
 
-              {/* Bridge Card */}
+              {/* Build Card */}
               <div className="group relative overflow-hidden rounded border border-neutral-200 bg-gradient-to-br from-white to-neutral-50 p-8 transition-all hover:border-brand-primary/50 hover:shadow-lg dark:from-neutral-900 dark:to-neutral-900/80 dark:hover:border-brand-primary/30">
                 <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-brand-primary/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                 <div className="relative z-10">
                   <div className="mb-6 inline-flex items-center space-x-2 rounded-full bg-brand-primary/10 px-4 py-1.5">
                     <span className="h-2 w-2 rounded-full bg-brand-primary"></span>
-                    <span className="text-sm font-medium text-brand-primary">Bridge</span>
+                    <span className="text-sm font-medium text-brand-primary">Build</span>
                   </div>
-                  <h3 className="text-2xl font-bold text-neutral-900 dark:text-white">Hire Top Tech Talent</h3>
+                  <h3 className="text-2xl font-bold text-neutral-900 dark:text-white">Build Scalable Solutions</h3>
                   <p className="mt-3 text-neutral-600 dark:text-neutral-300">
-                    Access a curated pool of vetted tech professionals trained in the latest technologies and ready to contribute from day one.
+                    Turn your vision into reality. Our expert team leverages the latest technologies to build, test, and launch scalable digital products efficiently.
                   </p>
                   <div className="mt-6">
                     <Link
                       to="/bridge"
                       className="inline-flex items-center gap-1 text-sm font-medium text-brand-primary px-0 py-0 transition-all group-hover:rounded-full group-hover:border group-hover:border-brand-primary group-hover:bg-white group-hover:px-3 group-hover:py-1 focus-visible:rounded-full focus-visible:border focus-visible:border-brand-primary focus-visible:bg-white focus-visible:px-3 focus-visible:py-1 focus-visible:outline-none"
                     >
-                      <span>Find your next hire</span>
+                      <span>Build with Onebit</span>
                       <ArrowUpRight size={16} className="ml-1 transition-transform group-hover:translate-x-1" />
                     </Link>
                   </div>

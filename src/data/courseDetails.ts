@@ -659,7 +659,7 @@ export const courseDetails: Record<string, CourseDetail> = {
         id: 'forex-trading',
         title: 'Forex Trading',
         track: 'Trading',
-        description: 'Master the global currency markets. This course takes you from the basics of Forex to advanced technical analysis and risk management strategies used by professional traders.',
+        description: 'Understanding global currency markets. This course teaches you the basics of Forex and helps you understand technical analysis and risk management strategies used by professional traders.',
         objectives: [
             'Understand how the Forex market works',
             'Perform technical and fundamental analysis',
@@ -668,28 +668,36 @@ export const courseDetails: Record<string, CourseDetail> = {
         ],
         curriculum: [
             {
-                title: 'Forex Fundamentals',
-                topics: ['Currency pairs', 'Pips, Lots, and Leverage', 'Market sessions'],
+                title: 'Foundation & Market Structure',
+                topics: ['Welcome to Forex Trading', 'Introduction to Market Structure', 'Reading the Charts'],
             },
             {
-                title: 'Technical Analysis',
-                topics: ['Support and Resistance', 'Trendlines and Channels', 'Candlestick patterns'],
+                title: 'ICT Fundamentals - Liquidity & Order Blocks',
+                topics: ['Understanding Liquidity', 'Order Blocks (The ICT Edge)', 'Fair Value Gaps (FVG)'],
             },
             {
-                title: 'Fundamental Analysis',
-                topics: ['Economic indicators', 'Central bank policies', 'Geopolitical events'],
+                title: 'ICT Core Concepts - Smart Money',
+                topics: ['Smart Money Concepts (SMC)', 'Inducement & Stop Hunts', 'Optimal Trade Entry (OTE)'],
             },
             {
-                title: 'Trading Psychology & Risk',
-                topics: ['Position sizing', 'Emotional discipline', 'Building a trading journal'],
+                title: 'Advanced ICT & Risk Management',
+                topics: ['Breaker Blocks & Mitigation Blocks', 'Killzones & Session Trading', 'Risk Management Essentials'],
+            },
+            {
+                title: 'Additional Strategies & Trade Execution',
+                topics: ['Trend Line Strategy (Non-ICT Approach)', 'Putting It All Together', 'Trade Execution & Psychology'],
+            },
+            {
+                title: 'Real Trading Preparation & Final Review',
+                topics: ['Common Beginner Mistakes', 'Building Your Trading Routine', 'Final Assessment & Next Steps'],
             },
         ],
         prerequisites: ['None'],
         targetAudience: ['Aspiring traders', 'Investors'],
         instructor: {
-            name: 'Kolawole Abiola',
+            name: 'Chosen Uzodinma',
             role: 'Pro Forex Trader',
-            bio: 'Kolawole has been trading the markets for over 10 years. He focuses on price action and disciplined risk management.',
+            bio: 'Chosen has been trading the markets for 2+ years. He focuses on price action and disciplined risk management.',
         },
         duration: '6 weeks',
         format: 'Live Trading Sessions + Theory',
