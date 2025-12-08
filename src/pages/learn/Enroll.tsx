@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { ArrowLeft, CheckCircle2, CreditCard, Shield, Clock, Users, Award } from 'lucide-react'
-import { loadStripe } from '@stripe/stripe-js'
+import { loadStripe, type Stripe as StripeClient } from '@stripe/stripe-js'
 import { Button } from '../../components/ui/button.tsx'
 import { courseDetails } from '../../data/courseDetails.ts'
 import { useGsapReveal } from '../../hooks/useGsapReveal.ts'
@@ -9,9 +9,9 @@ import { useGsapReveal } from '../../hooks/useGsapReveal.ts'
 // Course pricing configuration
 const coursePricing: Record<string, { price: number; currency: string; stripePriceId: string }> = {
   'forex-trading': {
-    price: 150000, // in kobo/cents (₦150,000)
-    currency: 'NGN',
-    stripePriceId: 'price_forex_trading_ngn', // Replace with actual Stripe Price ID
+    price: 7000, // in cents ($70)
+    currency: 'USD',
+    stripePriceId: 'price_1Sc2IGCoN6Y6mDq5dBS1FPLX', // Replace with actual Stripe Price ID
   },
   // Add more courses as needed
 }
@@ -78,10 +78,12 @@ export function EnrollPage() {
         return
       }
 
+      const stripeClient = stripe as StripeClient
+
       const successUrl = `${window.location.origin}/learn/course/${courseId}?status=success`
       const cancelUrl = `${window.location.origin}/learn/enroll/${courseId}`
 
-      const { error } = await stripe.redirectToCheckout({
+      const { error } = await stripeClient.redirectToCheckout({
         mode: 'payment',
         lineItems: [
           {
