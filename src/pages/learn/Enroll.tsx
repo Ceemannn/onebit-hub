@@ -1,17 +1,15 @@
 import { useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { ArrowLeft, CheckCircle2, CreditCard, Shield, Clock, Users, Award } from 'lucide-react'
-import { loadStripe, type Stripe as StripeClient } from '@stripe/stripe-js'
 import { Button } from '../../components/ui/button.tsx'
 import { courseDetails } from '../../data/courseDetails.ts'
 import { useGsapReveal } from '../../hooks/useGsapReveal.ts'
 
 // Course pricing configuration
-const coursePricing: Record<string, { price: number; currency: string; stripePriceId: string }> = {
+const coursePricing: Record<string, { price: number; currency: string }> = {
   'forex-trading': {
     price: 7000, // in cents ($70)
     currency: 'USD',
-    stripePriceId: 'price_1Sc2IGCoN6Y6mDq5dBS1FPLX', // Replace with actual Stripe Price ID
   },
   // Add more courses as needed
 }
@@ -63,45 +61,13 @@ export function EnrollPage() {
     setIsLoading(true)
 
     try {
-      // Read Stripe publishable key from environment
-      const publishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY as string | undefined
-
-      if (!publishableKey) {
-        alert('Payment is not available right now. Stripe publishable key is not configured.')
-        return
+      await new Promise((resolve) => setTimeout(resolve, 800))
+      alert('Your enrollment has been submitted. We will contact you with payment and onboarding details.')
+      if (courseId) {
+        navigate(`/learn/course/${courseId}`)
+      } else {
+        navigate('/learn/individuals')
       }
-
-      const stripe = await loadStripe(publishableKey)
-
-      if (!stripe) {
-        alert('Unable to initialize payment. Please try again later.')
-        return
-      }
-
-      const stripeClient = stripe as StripeClient
-
-      const successUrl = `${window.location.origin}/learn/course/${courseId}?status=success`
-      const cancelUrl = `${window.location.origin}/learn/enroll/${courseId}`
-
-      const { error } = await stripeClient.redirectToCheckout({
-        mode: 'payment',
-        lineItems: [
-          {
-            price: pricing.stripePriceId,
-            quantity: 1,
-          },
-        ],
-        customerEmail: formData.email,
-        clientReferenceId: courseId ?? undefined,
-        successUrl,
-        cancelUrl,
-      })
-
-      if (error) {
-        console.error('Stripe redirect error:', error)
-        alert(error.message ?? 'There was an error redirecting to the payment page. Please try again.')
-      }
-      
     } catch (error) {
       console.error('Enrollment error:', error)
       alert('There was an error processing your enrollment. Please try again.')
@@ -213,7 +179,7 @@ export function EnrollPage() {
               <div className="rounded-2xl border border-neutral-200 bg-neutral-50 p-6 dark:border-neutral-800 dark:bg-neutral-900/50">
                 <div className="flex items-center gap-3 mb-4">
                   <CreditCard className="h-5 w-5 text-brand-primary" />
-                  <h3 className="font-semibold text-neutral-900 dark:text-white">Payment Details</h3>
+                  <h3 className="font-semibold text-neutral-900 dark:text-white">Enrollment Details</h3>
                 </div>
                 <div className="flex items-center justify-between py-3 border-b border-neutral-200 dark:border-neutral-700">
                   <span className="text-neutral-600 dark:text-neutral-400">Course Fee</span>
@@ -222,7 +188,7 @@ export function EnrollPage() {
                   </span>
                 </div>
                 <p className="mt-4 text-xs text-neutral-500 dark:text-neutral-400">
-                  Secure payment powered by Stripe. Your payment information is encrypted and secure.
+                  Submit your enrollment request and we will contact you with payment and onboarding details.
                 </p>
               </div>
 
@@ -240,7 +206,7 @@ export function EnrollPage() {
                 ) : (
                   <span className="flex items-center gap-2">
                     <CreditCard className="h-4 w-4" />
-                    Pay {formatPrice(pricing.price, pricing.currency)} & Enroll
+                    Enroll for {formatPrice(pricing.price, pricing.currency)}
                   </span>
                 )}
               </Button>
