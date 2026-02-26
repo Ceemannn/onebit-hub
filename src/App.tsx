@@ -9,7 +9,6 @@ import { initGsap } from './lib/gsap.ts'
 const HomePage = lazy(() => import('./pages/Home.tsx').then(m => ({ default: m.HomePage })))
 const ProjectsPage = lazy(() => import('./pages/build/Projects.tsx').then(m => ({ default: m.ProjectsPage })))
 const ServicesPage = lazy(() => import('./pages/build/Services.tsx').then(m => ({ default: m.ServicesPage })))
-const DemoPage = lazy(() => import('./pages/build/Demo.tsx').then(m => ({ default: m.DemoPage })))
 const DemoCreditPage = lazy(() => import('./pages/build/demos/DemoCredit.tsx').then(m => ({ default: m.DemoCreditPage })))
 const DemoForecastPage = lazy(() => import('./pages/build/demos/DemoForecast.tsx').then(m => ({ default: m.DemoForecastPage })))
 const DemoHrPage = lazy(() => import('./pages/build/demos/DemoHr.tsx').then(m => ({ default: m.DemoHrPage })))
@@ -19,7 +18,9 @@ const IndividualsPage = lazy(() => import('./pages/learn/Individuals.tsx').then(
 const CourseDetailPage = lazy(() => import('./pages/learn/CourseDetail.tsx').then(m => ({ default: m.CourseDetailPage })))
 const CorporationsPage = lazy(() => import('./pages/learn/Corporations.tsx').then(m => ({ default: m.CorporationsPage })))
 const EnrollPage = lazy(() => import('./pages/learn/Enroll.tsx').then(m => ({ default: m.EnrollPage })))
+const CorporateProposalPage = lazy(() => import('./pages/learn/CorporateProposal.tsx').then(m => ({ default: m.CorporateProposalPage })))
 const BridgePage = lazy(() => import('./pages/Bridge.tsx').then(m => ({ default: m.BridgePage })))
+const ComingSoonPage = lazy(() => import('./pages/ComingSoon.tsx').then(m => ({ default: m.ComingSoonPage })))
 const AboutPage = lazy(() => import('./pages/About.tsx').then(m => ({ default: m.AboutPage })))
 const ContactPage = lazy(() => import('./pages/Contact.tsx').then(m => ({ default: m.ContactPage })))
 const LegalPage = lazy(() => import('./pages/Legal.tsx').then(m => ({ default: m.LegalPage })))
@@ -46,8 +47,8 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/build/projects" element={<ProjectsPage />} />
             <Route path="/build/services" element={<ServicesPage />} />
-            <Route path="/build/demo" element={<DemoPage />} />
-            <Route path="/build/demo/tdafrica-credit-intelligence" element={<DemoCreditPage />} />
+            <Route path="/build/demo" element={<Navigate to="/build/projects" replace />} />
+            <Route path="/build/demo/credit-intelligence" element={<DemoCreditPage />} />
             <Route path="/build/demo/demand-forecasting-engine" element={<DemoForecastPage />} />
             <Route path="/build/demo/workforcecore-hr-app" element={<DemoHrPage />} />
             <Route path="/build/demo/perform-deliver" element={<DemoAppraisalPage />} />
@@ -56,7 +57,9 @@ function App() {
             <Route path="/learn/course/:courseId" element={<CourseDetailPage />} />
             <Route path="/learn/enroll/:courseId" element={<EnrollPage />} />
             <Route path="/learn/corporations" element={<CorporationsPage />} />
+            <Route path="/learn/corporate-proposal" element={<CorporateProposalPage />} />
             <Route path="/bridge" element={<BridgePage />} />
+            <Route path="/coming-soon" element={<ComingSoonPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/legal" element={<LegalPage />} />

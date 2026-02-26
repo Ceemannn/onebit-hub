@@ -120,7 +120,7 @@ export function ContactPage() {
             <article className="overflow-hidden rounded-3xl border border-neutral-900/10 bg-white shadow-soft dark:border-white/10">
               <iframe
                 title="Onebit Hub Map"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.839!2d3.417!3d6.428!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwMjUnNDAuOCJOIDPCsDI0JzU4LjciRQ!5e0!3m2!1sen!2sng!4v1700000000000!5m2!1sen!2sng"
+                src="https://www.google.com/maps?q=Benny%20Otuya%20street%2C%20F01%2C%20Kubwa%2C%20Abuja&output=embed"
                 className="h-72 w-full"
                 loading="lazy"
                 allowFullScreen

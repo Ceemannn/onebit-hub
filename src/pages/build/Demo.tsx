@@ -16,7 +16,7 @@ export function DemoPage() {
       />
       <div className="grid gap-6 md:grid-cols-2">
         {demoWidgets.map((widget) => (
-          <article key={widget.title} className="rounded-3xl border border-neutral-900/10 bg-white/90 p-6 shadow-card dark:border-white/10 dark:bg-neutral-900/80">
+          <article key={widget.title} className="group rounded-3xl border border-neutral-900/10 bg-white/90 p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-brand-primary/30 dark:border-white/10 dark:bg-neutral-900/80 dark:hover:border-brand-primary/40">
             <header className="flex items-center justify-between">
               <h3 className="text-xl font-semibold text-neutral-900 dark:text-white">{widget.title}</h3>
               <span className="text-xs uppercase tracking-[0.3em] text-brand-teal/70">Live Preview</span>
@@ -37,29 +37,39 @@ export function DemoPage() {
           </article>
         ))}
       </div>
-      <div className="rounded-3xl border border-brand-primary/20 bg-gradient-to-r from-brand-primary/90 to-brand-teal/80 p-10 text-white">
-        <div className="grid gap-6 md:grid-cols-2 md:items-center">
-          <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-white/70">Sandbox access</p>
-            <h3 className="mt-3 text-3xl font-semibold">Invite your teams for private sessions.</h3>
-            <p className="mt-4 text-white/80">
-              We configure your data slices, security roles, and guided walkthroughs so that stakeholders can explore with confidence.
-            </p>
-          </div>
-          <div className="rounded-2xl border border-white/20 bg-white/10 p-6 text-sm">
-            <ul className="space-y-3">
-              {['Executive readouts', 'Product team sandboxes', 'Change management workshops', 'API-first integration demos'].map(
-                (item) => (
-                  <li key={item} className="flex items-center gap-3">
-                    <span className="h-2 w-2 rounded-full bg-white"></span>
-                    {item}
-                  </li>
-                ),
-              )}
-            </ul>
-            <Button variant="ghost" className="mt-6 border border-white/30 text-white">
-              Book a guided demo
-            </Button>
+
+      <div className="group relative overflow-hidden rounded-3xl border border-brand-primary/20">
+        <div
+          className="absolute inset-0 bg-cover bg-center transition-all duration-500 group-hover:blur-sm"
+          style={{
+            backgroundImage: "url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070')",
+          }}
+        ></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-neutral-950/85 via-neutral-950/80 to-brand-primary/70"></div>
+        <div className="relative z-10 p-10 text-white">
+          <div className="grid gap-6 md:grid-cols-2 md:items-center">
+            <div>
+              <p className="text-xs uppercase tracking-[0.3em] text-white/90">Sandbox access</p>
+              <h3 className="mt-3 text-3xl font-semibold text-white">Invite your teams for private sessions.</h3>
+              <p className="mt-4 text-white/90">
+                We configure your data slices, security roles, and guided walkthroughs so that stakeholders can explore with confidence.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-white/30 bg-white/10 p-6 text-sm backdrop-blur-sm">
+              <ul className="space-y-3">
+                {['Executive readouts', 'Product team sandboxes', 'Change management workshops', 'API-first integration demos'].map(
+                  (item) => (
+                    <li key={item} className="flex items-center gap-3 text-white">
+                      <span className="h-2 w-2 flex-shrink-0 rounded-full bg-white"></span>
+                      {item}
+                    </li>
+                  ),
+                )}
+              </ul>
+              <Button variant="ghost" className="mt-6 border border-white/40 text-white hover:bg-white/20">
+                Book a guided demo
+              </Button>
+            </div>
           </div>
         </div>
       </div>

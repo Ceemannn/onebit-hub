@@ -14,12 +14,12 @@ export type DemoProjectContent = {
 
 export const demoProjects: DemoProjectContent[] = [
   {
-    slug: 'tdafrica-credit-intelligence',
-    name: 'Credit Intelligence Platform for TDAfrica',
+    slug: 'credit-intelligence',
+    name: 'Credit Intelligence Platform',
     heroTagline:
       'Credit Intelligence Platform — Real-time scoring, policy engine, and collections automation for West Africa’s largest tech distributor.',
     summary:
-      'Built a production credit rating and portfolio management platform for TDAfrica to enable scalable, data-driven credit decisions across a predominantly credit-based supply chain.',
+      'Built a production credit rating and portfolio management platform to enable scalable, data-driven credit decisions across a predominantly credit-based supply chain.',
     atGlance:
       'Reduced credit decision time from weeks to minutes by automating underwriting, policy enforcement, and collections workflows across 100% of credit customers.',
     challenge: [
@@ -152,7 +152,7 @@ export const demoProjects: DemoProjectContent[] = [
   },
   {
     slug: 'buildstock-hommes',
-    name: 'BuildStock — Inventory for Hommes Estates',
+    name: 'BuildStock — Inventory for Real Estate',
     heroTagline: 'BuildStock — Construction inventory visibility and procurement automation.',
     summary: 'Inventory system for multi-site construction operations, handling materials tracking, transfers, and PO automation.',
     atGlance: 'Provided site-level stock control and procurement automation with verified audit trails.',

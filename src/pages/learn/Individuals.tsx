@@ -23,7 +23,7 @@ export function IndividualsPage() {
         />
         <div className="grid gap-6 md:grid-cols-3">
           {professionalTracks.map((track) => (
-            <article key={track.title} className="rounded-3xl border border-neutral-900/10 bg-white/90 p-6 shadow-soft dark:border-white/10 dark:bg-neutral-900/80">
+            <article key={track.title} className="group rounded-3xl border border-neutral-900/10 bg-white/90 p-6 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-brand-primary/30 dark:border-white/10 dark:bg-neutral-900/80 dark:hover:border-brand-primary/40">
               <p className="text-xs uppercase tracking-[0.3em] text-brand-primary/70">{track.duration}</p>
               <h3 className="mt-3 text-xl font-semibold text-neutral-900 dark:text-white">{track.title}</h3>
               <ul className="mt-4 space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
@@ -54,7 +54,7 @@ export function IndividualsPage() {
               <div className="mt-6 flex flex-wrap gap-4">
                 <Button>Apply to Onebit Professionals</Button>
                 <Button asChild variant="secondary">
-                  <Link to="/bridge">Meet hiring partners</Link>
+                  <Link to="/coming-soon">Meet hiring partners</Link>
                 </Button>
               </div>
             </div>
@@ -130,7 +130,7 @@ export function IndividualsPage() {
             </p>
           </div>
           <Button asChild variant="secondary" className="w-full md:w-auto">
-            <Link to="/bridge" className="inline-flex items-center gap-2">
+            <Link to="/coming-soon" className="inline-flex items-center gap-2">
               Explore Bridge <ArrowUpRight size={16} />
             </Link>
           </Button>

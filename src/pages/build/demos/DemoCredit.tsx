@@ -14,7 +14,7 @@ const sliders = [
   { key: 'returns', label: 'Returns %', min: 0, max: 35, step: 1 },
 ] as const
 
-const project = demoProjects.find((demo) => demo.slug === 'tdafrica-credit-intelligence')!
+const project = demoProjects.find((demo) => demo.slug === 'credit-intelligence')!
 
 type SliderKey = (typeof sliders)[number]['key']
 

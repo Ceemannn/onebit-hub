@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { SectionHeading } from '../../components/shared/SectionHeading.tsx'
 import { Button } from '../../components/ui/button.tsx'
 import { corporateTracks, corporateFeatures } from '../../data/siteContent.ts'
@@ -37,8 +38,8 @@ export function CorporationsPage() {
                   </li>
                 ))}
               </ul>
-              <Button variant="secondary" className="mt-6 w-full border-white/30 text-white">
-                Request proposal
+              <Button asChild variant="secondary" className="mt-6 w-full border-white/30 text-white">
+                <Link to="/learn/corporate-proposal">Request proposal</Link>
               </Button>
             </div>
           </div>

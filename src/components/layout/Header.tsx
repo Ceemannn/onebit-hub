@@ -26,19 +26,14 @@ const menuIds: Record<MegaMenuKey, string> = {
 
 const buildMenu = [
   {
-    label: 'Projects',
-    to: '/build/projects',
-    description: 'Explore our portfolio of enterprise systems and AI solutions'
-  },
-  {
     label: 'Services',
     to: '/build/services',
     description: 'End-to-end technology consulting and implementation'
   },
   {
-    label: 'Demo',
-    to: '/build/demo',
-    description: 'Interactive demonstrations of our solutions in action'
+    label: 'Projects & Demos',
+    to: '/build/projects',
+    description: 'Explore our portfolio of enterprise systems and AI solutions'
   },
 ]
 
@@ -212,8 +207,19 @@ export function Header() {
         Skip to main content
       </a>
       <div className="container flex items-center justify-between py-4">
-        <Link to="/" className="text-xl font-semibold tracking-tight">
-          <span className="text-brand-primary">Onebit</span> Hub
+        <Link to="/" className="inline-flex items-center" aria-label="Onebit Hub">
+          <img
+            src="/onebit-logo-light.png"
+            alt="Onebit"
+            className="block h-9 w-auto dark:hidden"
+            draggable={false}
+          />
+          <img
+            src="/onebit-logo-dark.png"
+            alt="Onebit"
+            className="hidden h-9 w-auto dark:block"
+            draggable={false}
+          />
         </Link>
 
         <nav className="hidden items-center gap-8 text-sm font-medium md:flex">
@@ -381,17 +387,20 @@ export function Header() {
                           <div className="space-y-4">
                             {bridgeMenu.map((group) => (
                               <div key={group.label}>
-                                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-neutral-500">{group.label}</p>
+                                <div className="mb-2 flex items-center gap-2">
+                                  <p className="text-xs font-semibold uppercase tracking-wider text-neutral-500">{group.label}</p>
+                                  <span className="inline-flex items-center rounded-full bg-gradient-to-r from-brand-primary to-brand-indigo px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-white">
+                                    Coming Soon
+                                  </span>
+                                </div>
                                 <div className="space-y-1">
                                   {group.items.map((item) => (
-                                    <Link
+                                    <div
                                       key={item.label}
-                                      to={item.to}
-                                      onClick={() => setMobileOpen(false)}
-                                      className="block rounded-lg p-2 text-sm transition-colors hover:bg-brand-primary/5"
+                                      className="block rounded-lg p-2 text-sm opacity-50 cursor-not-allowed"
                                     >
-                                      <p className="font-medium text-neutral-900 dark:text-white">{item.label}</p>
-                                    </Link>
+                                      <p className="font-medium text-neutral-500 dark:text-neutral-400">{item.label}</p>
+                                    </div>
                                   ))}
                                 </div>
                               </div>
@@ -467,7 +476,7 @@ const MegaShell = forwardRef<HTMLDivElement, MegaShellProps>(
         aria-label={`${menuKey} menu`}
         data-state={isActive ? 'open' : 'closed'}
         style={{ pointerEvents: isActive ? 'auto' : 'none' }}
-        className="absolute left-1/2 top-full mt-4 hidden w-[900px] -translate-x-1/2 rounded-2xl border border-neutral-200 bg-white p-8 shadow-2xl shadow-brand-primary/5 dark:border-neutral-800 dark:bg-neutral-950 md:block"
+        className="absolute left-1/2 top-full mt-4 hidden w-[900px] -translate-x-1/2 rounded-2xl border border-neutral-200 p-8 shadow-2xl shadow-brand-primary/5 dark:border-neutral-800 md:block bg-white dark:bg-neutral-950 [background-image:repeating-linear-gradient(45deg,transparent,transparent_20px,rgba(0,0,0,0.03)_20px,rgba(0,0,0,0.03)_21px)] dark:[background-image:repeating-linear-gradient(45deg,transparent,transparent_20px,rgba(255,255,255,0.03)_20px,rgba(255,255,255,0.03)_21px)]"
         onMouseEnter={() => onInteractStart(menuKey)}
         onMouseLeave={onInteractEnd}
         onFocusCapture={() => onInteractStart(menuKey)}
@@ -626,25 +635,28 @@ const MegaMenuBridge = forwardRef<HTMLDivElement, MegaMenuProps>(({ isActive, me
         <div className="col-span-2 grid grid-cols-2 gap-8">
           {bridgeMenu.map((group) => (
             <div key={group.label} data-menu-item>
-              <p className="mb-4 text-xs font-bold uppercase tracking-widest text-neutral-500">
-                {group.label}
-              </p>
+              <div className="mb-4 flex items-center gap-3">
+                <p className="text-xs font-bold uppercase tracking-widest text-neutral-500">
+                  {group.label}
+                </p>
+                <span className="inline-flex items-center rounded-full bg-gradient-to-r from-brand-primary to-brand-indigo px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white shadow-sm">
+                  Coming Soon
+                </span>
+              </div>
               <div className="grid gap-1">
                 {group.items.map((item) => (
-                  <Link
+                  <div
                     key={item.label}
-                    to={item.to}
                     data-menu-item
-                    role="menuitem"
-                    className="group rounded-lg p-4 transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-900/50"
+                    className="rounded-lg p-4 opacity-50 cursor-not-allowed"
                   >
-                    <div className="mb-1 font-semibold text-neutral-900 group-hover:text-brand-primary dark:text-white">
+                    <div className="mb-1 font-semibold text-neutral-500 dark:text-neutral-400">
                       {item.label}
                     </div>
-                    <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                    <p className="text-sm text-neutral-400 dark:text-neutral-500">
                       {item.description}
                     </p>
-                  </Link>
+                  </div>
                 ))}
               </div>
             </div>
@@ -652,23 +664,25 @@ const MegaMenuBridge = forwardRef<HTMLDivElement, MegaMenuProps>(({ isActive, me
         </div>
 
         {/* Featured Content - 1 column */}
-        <div className="rounded-xl border border-neutral-200 bg-gradient-to-br from-accent-indigo/5 to-transparent p-6 dark:border-neutral-800" data-menu-item>
-          <div className="mb-3 inline-flex rounded-full bg-accent-indigo/10 px-3 py-1 text-xs font-semibold text-accent-indigo">
-            Talent Network
+        <div className="rounded-xl border border-neutral-200 bg-gradient-to-br from-accent-indigo/5 to-transparent p-6 dark:border-neutral-800 opacity-60" data-menu-item>
+          <div className="mb-3 flex items-center gap-2">
+            <span className="inline-flex justify-center rounded-full bg-accent-indigo/10 px-3 py-1 text-xs font-semibold text-accent-indigo text-center">
+              Talent Network
+            </span>
+            <span className="inline-flex justify-center items-center rounded-full bg-gradient-to-r from-brand-primary to-brand-indigo px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white shadow-sm text-center">
+              Coming Soon
+            </span>
           </div>
-          <h4 className="mb-2 text-lg font-bold text-neutral-900 dark:text-white">
+          <h4 className="mb-2 text-lg font-bold text-neutral-500 dark:text-neutral-400">
             Hire Vetted Talent
           </h4>
-          <p className="mb-4 text-sm text-neutral-600 dark:text-neutral-400">
+          <p className="mb-4 text-sm text-neutral-500 dark:text-neutral-500">
             Access our network of pre-screened, job-ready professionals today.
           </p>
-          <Link
-            to="/bridge#companies"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-accent-indigo hover:gap-3 transition-all"
-          >
+          <span className="inline-flex items-center gap-2 text-sm font-semibold text-neutral-400 cursor-not-allowed">
             View Talent Pool
             <ArrowRight className="h-4 w-4" />
-          </Link>
+          </span>
         </div>
       </div>
     </MegaShell>

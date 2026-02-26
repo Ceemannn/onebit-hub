@@ -280,8 +280,8 @@ export const demoWidgets = [
   {
     title: 'Credit scoring sandbox',
     description: 'Adjust credit policies, risk bands, and see instant portfolio impact.',
-    slug: 'tdafrica-credit-intelligence',
-    href: '/build/demo/tdafrica-credit-intelligence',
+    slug: 'credit-intelligence',
+    href: '/build/demo/credit-intelligence',
   },
   {
     title: 'Demand forecasting scenario builder',
@@ -360,10 +360,9 @@ export const trustedBy = [
 ]
 
 export const leadership = [
-  { role: 'Founder & CEO', name: 'Chinedu Okeke' },
-  { role: 'Chief Technology Officer', name: 'Amaka Ibeh' },
-  { role: 'Chief Learning Officer', name: 'Tola Bamidele' },
-  { role: 'Head of Bridge Platform', name: 'David Mensah' },
+  { role: 'Founder & CEO', name: 'Testimony Adegoke' },
+  { role: 'Chief Financial Officer', name: 'Joyce Utibeno-Adegoke' },
+  { role: 'Chief Learning Officer', name: 'Chosen Uzodinma' },
 ]
 
 export const missionStatements = {
@@ -386,6 +385,6 @@ export const missionStatements = {
 
 export const contactChannels = {
   email: 'hello@onebit.io',
-  phone: '+234 800 000 1111',
-  address: 'Onebit Hub, Lagos Innovators District, Victoria Island, Lagos.',
+  phone: '+234 813 979 0293',
+  address: 'Benny Otuya street, F01, Kubwa, Abuja',
 }
