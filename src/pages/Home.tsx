@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type MouseEvent } from 'react'
 import { ArrowUpRight, Play, Quote } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Button } from '../components/ui/button.tsx'
@@ -35,18 +35,21 @@ export function HomePage() {
   const aboutRef = useGsapReveal<HTMLDivElement>({ delay: 0.25 })
 
   const [activeDemoIndex, setActiveDemoIndex] = useState(0)
+  const [isDemoPaused, setIsDemoPaused] = useState(false)
   const [activeArmIndex, setActiveArmIndex] = useState(0)
   const [armAutoRotate, setArmAutoRotate] = useState(true)
 
+  // Advance the hero demo reel, restarting the timer on each change so the
+  // progress bar stays in sync. Pauses while the user hovers the widget.
   useEffect(() => {
-    if (demoWidgets.length <= 1) return
+    if (demoWidgets.length <= 1 || isDemoPaused) return
 
-    const interval = setInterval(() => {
+    const timeout = setTimeout(() => {
       setActiveDemoIndex((prev) => (prev + 1) % demoWidgets.length)
     }, 7000)
 
-    return () => clearInterval(interval)
-  }, [])
+    return () => clearTimeout(timeout)
+  }, [activeDemoIndex, isDemoPaused])
 
   useEffect(() => {
     if (onebitArms.length <= 1 || !armAutoRotate) return
@@ -57,6 +60,14 @@ export function HomePage() {
 
     return () => clearInterval(interval)
   }, [armAutoRotate])
+
+  // Tracks the cursor within a card so the CSS spotlight glow follows it.
+  const handleSpotlight = (event: MouseEvent<HTMLElement>) => {
+    const el = event.currentTarget
+    const rect = el.getBoundingClientRect()
+    el.style.setProperty('--mx', `${event.clientX - rect.left}px`)
+    el.style.setProperty('--my', `${event.clientY - rect.top}px`)
+  }
 
   // Handler for manual tab selection
   const handleArmTabChange = (key: string) => {
@@ -92,8 +103,8 @@ export function HomePage() {
             className="h-full w-full"
           />
         </div>
-        <div className="pointer-events-none absolute -left-40 -top-40 h-80 w-80 rounded-full bg-brand-primary/10 blur-3xl" />
-        <div className="pointer-events-none absolute -right-40 top-40 h-80 w-80 rounded-full bg-brand-teal/10 blur-3xl" />
+        <div className="animate-floaty pointer-events-none absolute -left-40 -top-40 h-80 w-80 rounded-full bg-brand-primary/10 blur-3xl" />
+        <div className="animate-floaty pointer-events-none absolute -right-40 top-40 h-80 w-80 rounded-full bg-brand-teal/10 blur-3xl [animation-delay:3s]" />
         <div className="container relative grid gap-10 py-16 md:grid-cols-2 md:items-center lg:gap-16 lg:py-24">
           <div className="space-y-6 lg:space-y-8 max-w-xl" data-animate>
             <p className="text-[0.7rem] font-medium uppercase tracking-[0.35em] text-brand-teal/80">
@@ -144,8 +155,10 @@ export function HomePage() {
             </div>
           </div>
           <div
-            className="relative space-y-5 rounded border border-neutral-900/10 bg-gradient-to-b from-white/80 to-white/40 p-5 shadow-card dark:border-white/10 dark:from-neutral-900/80 dark:to-neutral-900/60"
+            className="glow-border relative space-y-5 rounded border border-neutral-900/10 bg-gradient-to-b from-white/80 to-white/40 p-5 shadow-card transition-shadow duration-500 hover:shadow-[0_30px_70px_rgba(50,154,146,0.25)] dark:border-white/10 dark:from-neutral-900/80 dark:to-neutral-900/60"
             data-animate
+            onMouseEnter={() => setIsDemoPaused(true)}
+            onMouseLeave={() => setIsDemoPaused(false)}
           >
             <div className="pointer-events-none absolute inset-x-8 -top-6 h-20 rounded bg-gradient-to-r from-brand-primary/15 via-brand-teal/10 to-brand-primary/15 blur-2xl" />
             <div className="relative flex items-center justify-between gap-4">
@@ -181,7 +194,7 @@ export function HomePage() {
                   >
                     <div className="space-y-3">
                       <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs uppercase tracking-[0.25em]">
-                        <span className="h-1.5 w-1.5 rounded-full bg-brand-teal" />
+                        <span className="live-dot h-1.5 w-1.5 rounded-full bg-brand-teal" />
                         <span>Interactive sandbox</span>
                       </div>
                       <h2 className="text-2xl font-semibold leading-snug">{demo.title}</h2>
@@ -190,16 +203,25 @@ export function HomePage() {
                     <div className="flex items-center justify-between gap-4">
                       <Link
                         to={demo.href}
-                        className="inline-flex items-center gap-2 text-sm font-semibold text-brand-teal hover:text-brand-primary"
+                        className="group/link inline-flex items-center gap-2 text-sm font-semibold text-brand-teal transition-colors hover:text-brand-primary"
                       >
                         Open full demo
-                        <ArrowUpRight size={16} />
+                        <ArrowUpRight
+                          size={16}
+                          className="transition-transform duration-300 group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5"
+                        />
                       </Link>
-                      <div className="flex items-center gap-2 text-[0.7rem] text-white/60">
-                        {demoWidgets.map((_, dotIndex) => (
-                          <span
-                            key={dotIndex}
-                            className={`h-1.5 w-1.5 rounded-full transition ${dotIndex === activeDemoIndex ? 'bg-brand-teal' : 'bg-white/30'
+                      <div className="flex items-center gap-1.5">
+                        {demoWidgets.map((dot, dotIndex) => (
+                          <button
+                            key={dot.slug}
+                            type="button"
+                            onClick={() => setActiveDemoIndex(dotIndex)}
+                            aria-label={`Show ${dot.title}`}
+                            aria-current={dotIndex === activeDemoIndex}
+                            className={`h-1.5 rounded-full transition-all duration-300 ${dotIndex === activeDemoIndex
+                              ? 'w-5 bg-brand-teal'
+                              : 'w-1.5 bg-white/30 hover:bg-white/60'
                               }`}
                           />
                         ))}
@@ -208,6 +230,14 @@ export function HomePage() {
                   </article>
                 )
               })}
+            </div>
+
+            <div className="mt-3 h-1 overflow-hidden rounded-full bg-neutral-900/10 dark:bg-white/10">
+              <div
+                key={activeDemoIndex}
+                className="demo-progress-bar h-full rounded-full bg-gradient-to-r from-brand-primary to-brand-teal"
+                style={{ animationPlayState: isDemoPaused ? 'paused' : 'running' }}
+              />
             </div>
           </div>
         </div>
@@ -251,7 +281,7 @@ export function HomePage() {
         <div className="container relative space-y-12 lg:space-y-14">
           <div className="max-w-3xl space-y-3" data-animate>
             {/* <p className="text-xs uppercase tracking-[0.35em] text-brand-teal/80">Why Onebit?</p> */}
-            <h2 className="text-3xl font-extrabold text-transparent bg-gradient-to-r from-brand-primary via-brand-teal to-brand-primary bg-clip-text drop-shadow-[0_0_22px_rgba(6,182,212,0.6)] md:text-4xl lg:text-[2.5rem]">
+            <h2 className="animate-gradient-text text-3xl font-extrabold text-transparent bg-gradient-to-r from-brand-primary via-brand-teal to-brand-primary bg-clip-text drop-shadow-[0_0_22px_rgba(6,182,212,0.6)] md:text-4xl lg:text-[2.5rem]">
               Why Onebit?
             </h2>
             <p className="text-sm text-neutral-700 dark:text-neutral-200 md:text-base">
@@ -340,7 +370,7 @@ export function HomePage() {
             <button
               key={pillar.title}
               type="button"
-              className="group flex flex-col justify-between rounded border border-neutral-900/10 bg-white/80 p-5 text-left shadow-soft transition hover:-translate-y-1 hover:border-brand-primary/40 hover:bg-white hover:shadow-card dark:border-white/10 dark:bg-neutral-900/80 dark:hover:border-brand-teal/50"
+              className="glow-border group relative flex flex-col justify-between rounded border border-neutral-900/10 bg-white/80 p-5 text-left shadow-soft transition duration-300 hover:-translate-y-1 hover:border-brand-primary/40 hover:bg-white hover:shadow-card dark:border-white/10 dark:bg-neutral-900/80 dark:hover:border-brand-teal/50"
               data-animate
             >
               <div>
@@ -387,7 +417,7 @@ export function HomePage() {
             {[...testimonials, ...testimonials].map((item, index) => (
               <article
                 key={`${item.name}-${index}`}
-                className="flex h-full min-w-[260px] max-w-sm flex-col justify-between rounded-lg border border-neutral-200 bg-white p-6 text-left shadow-soft transition-transform duration-200 hover:-translate-y-1 hover:border-brand-teal/70 hover:shadow-[0_0_40px_rgba(6,182,212,0.35)] dark:border-white/10 dark:bg-neutral-900/90"
+                className="glow-border relative flex h-full min-w-[260px] max-w-sm flex-col justify-between rounded-lg border border-neutral-200 bg-white p-6 text-left shadow-soft transition duration-300 hover:-translate-y-1 hover:border-brand-teal/70 hover:shadow-[0_0_40px_rgba(6,182,212,0.35)] dark:border-white/10 dark:bg-neutral-900/90"
               >
                 <div className="space-y-4">
                   <div className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-primary/10 text-brand-primary">
@@ -465,13 +495,14 @@ export function HomePage() {
                 const imageSrc = imageMap[project.title]
 
                 return (
-                  <div key={project.title} className="magnetic-card group relative h-full">
+                  <div key={project.title} className="group relative h-full">
                     <article
-                      className="relative flex h-full flex-col overflow-hidden rounded border border-neutral-200 bg-white transition-all duration-300 hover:shadow-xl dark:border-neutral-800 dark:bg-neutral-900/50"
+                      onMouseMove={handleSpotlight}
+                      className="spotlight-card glow-border relative flex h-full flex-col overflow-hidden rounded border border-neutral-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-neutral-800 dark:bg-neutral-900/50"
                       data-animate
                     >
                       {/* Image area */}
-                      <div className="relative h-36 w-full overflow-hidden bg-gradient-to-tr from-brand-primary/20 via-brand-teal/10 to-brand-primary/30">
+                      <div className="relative z-10 h-36 w-full overflow-hidden bg-gradient-to-tr from-brand-primary/20 via-brand-teal/10 to-brand-primary/30">
                         {imageSrc && (
                           <img
                             src={imageSrc}
@@ -485,7 +516,7 @@ export function HomePage() {
                       </div>
 
                       {/* Text content area */}
-                      <div className="flex flex-1 flex-col p-5">
+                      <div className="relative z-10 flex flex-1 flex-col p-5">
                         <h3 className="text-lg font-bold text-neutral-900 dark:text-white">{project.title}</h3>
                         <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-300">{project.description}</p>
                         <div className="mt-4">
@@ -518,7 +549,10 @@ export function HomePage() {
 
             <div className="grid gap-6 md:grid-cols-2">
               {/* Learn Card */}
-              <div className="group relative overflow-hidden rounded border border-neutral-200 bg-gradient-to-br from-white to-neutral-50 p-8 transition-all hover:border-brand-teal/50 hover:shadow-lg dark:from-neutral-900 dark:to-neutral-900/80 dark:hover:border-brand-teal/30">
+              <div
+                onMouseMove={handleSpotlight}
+                className="spotlight-card glow-border group relative overflow-hidden rounded border border-neutral-200 bg-gradient-to-br from-white to-neutral-50 p-8 transition-all duration-300 hover:-translate-y-1 hover:border-brand-teal/50 hover:shadow-lg dark:from-neutral-900 dark:to-neutral-900/80 dark:hover:border-brand-teal/30"
+              >
                 <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-brand-teal/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                 <div className="relative z-10">
                   <div className="mb-6 inline-flex items-center space-x-2 rounded-full bg-brand-teal/10 px-4 py-1.5">
@@ -542,7 +576,10 @@ export function HomePage() {
               </div>
 
               {/* Build Card */}
-              <div className="group relative overflow-hidden rounded border border-neutral-200 bg-gradient-to-br from-white to-neutral-50 p-8 transition-all hover:border-brand-primary/50 hover:shadow-lg dark:from-neutral-900 dark:to-neutral-900/80 dark:hover:border-brand-primary/30">
+              <div
+                onMouseMove={handleSpotlight}
+                className="spotlight-card glow-border group relative overflow-hidden rounded border border-neutral-200 bg-gradient-to-br from-white to-neutral-50 p-8 transition-all duration-300 hover:-translate-y-1 hover:border-brand-primary/50 hover:shadow-lg dark:from-neutral-900 dark:to-neutral-900/80 dark:hover:border-brand-primary/30"
+              >
                 <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-brand-primary/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                 <div className="relative z-10">
                   <div className="mb-6 inline-flex items-center space-x-2 rounded-full bg-brand-primary/10 px-4 py-1.5">
