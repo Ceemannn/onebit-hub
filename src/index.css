@@ -101,21 +101,6 @@ a:focus-visible {
   animation: trust-marquee 28s linear infinite;
 }
 
-@keyframes testimonials-marquee {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.testimonials-marquee {
-  width: max-content;
-  animation: testimonials-marquee 36s linear infinite;
-}
-
 /* Orbital timeline custom styles */
 .bg-gradient-orbital {
   background: linear-gradient(to bottom right, #6366f1, #3b82f6, #14b8a6);
@@ -265,7 +250,6 @@ a:focus-visible {
 /* Respect users who prefer reduced motion. */
 @media (prefers-reduced-motion: reduce) {
   .trust-marquee,
-  .testimonials-marquee,
   .animate-floaty,
   .animate-gradient-text,
   .live-dot,

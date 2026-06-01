@@ -1,9 +1,10 @@
 import { useEffect, useState, type MouseEvent } from 'react'
-import { ArrowUpRight, Play, Quote } from 'lucide-react'
+import { ArrowUpRight, Play } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Button } from '../components/ui/button.tsx'
 import { SectionHeading } from '../components/shared/SectionHeading.tsx'
 import { SegmentedTabs } from '../components/shared/SegmentedTabs.tsx'
+import { TestimonialCarousel } from '../components/shared/TestimonialCarousel.tsx'
 import DotGrid from '../components/shared/DotGrid.tsx'
 import {
   heroPillars,
@@ -410,38 +411,8 @@ export function HomePage() {
           description="From systems to skills to real career opportunities, Onebit equips teams and talents to operate on a higher level. Here’s how our work is transforming their processes, performance, and potential."
           align="center"
         />
-        <div className="relative overflow-hidden rounded" data-animate>
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white to-transparent dark:from-neutral-950" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white to-transparent dark:from-neutral-950" />
-          <div className="testimonials-marquee flex gap-6 md:gap-8">
-            {[...testimonials, ...testimonials].map((item, index) => (
-              <article
-                key={`${item.name}-${index}`}
-                className="glow-border relative flex h-full min-w-[260px] max-w-sm flex-col justify-between rounded-lg border border-neutral-200 bg-white p-6 text-left shadow-soft transition duration-300 hover:-translate-y-1 hover:border-brand-teal/70 hover:shadow-[0_0_40px_rgba(6,182,212,0.35)] dark:border-white/10 dark:bg-neutral-900/90"
-              >
-                <div className="space-y-4">
-                  <div className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-primary/10 text-brand-primary">
-                    <Quote size={16} />
-                  </div>
-                  <p className="text-sm text-neutral-700 dark:text-neutral-200">“{item.quote}”</p>
-                  <div className="space-y-1">
-                    <p className="text-sm font-semibold text-neutral-900 dark:text-white">{item.name}</p>
-                    <p className="text-xs text-neutral-500 dark:text-neutral-400">{item.role}</p>
-                  </div>
-                </div>
-                <div className="mt-6 flex items-center justify-between gap-4 border-t border-neutral-100 pt-4 text-xs text-neutral-500 dark:border-white/10 dark:text-neutral-400">
-                  <div>
-                    <p className="font-semibold text-neutral-900 dark:text-white">{item.metricValueLeft}</p>
-                    <p>{item.metricLabelLeft}</p>
-                  </div>
-                  <div>
-                    <p className="font-semibold text-neutral-900 dark:text-white">{item.metricValueRight}</p>
-                    <p>{item.metricLabelRight}</p>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
+        <div data-animate>
+          <TestimonialCarousel testimonials={testimonials} />
         </div>
         <div className="rounded border border-brand-primary/20 bg-gradient-to-r from-brand-primary/90 via-brand-teal/90 to-brand-primary/90 p-8 text-white shadow-card" data-animate>
           <div className="grid gap-6 md:grid-cols-[minmax(0,2fr)_minmax(0,1.1fr)] md:items-center">
