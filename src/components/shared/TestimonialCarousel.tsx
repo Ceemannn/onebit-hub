@@ -90,8 +90,8 @@ export function TestimonialCarousel({ testimonials }: TestimonialCarouselProps) 
               aria-hidden={!isActive}
               className={`absolute left-1/2 top-1/2 flex h-[380px] w-[300px] flex-col justify-between rounded-2xl border p-6 transition-all duration-500 ease-out sm:w-[360px] md:w-[400px] md:p-7 ${
                 isActive
-                  ? 'border-brand-teal/40 bg-gradient-to-br from-[#1C1E24] to-[#2A2E38] shadow-[0_30px_80px_-20px_rgba(50,154,146,0.5)]'
-                  : 'cursor-pointer border-white/10 bg-gradient-to-br from-[#1C1E24] to-[#23262F] shadow-2xl'
+                  ? 'border-brand-teal/40 bg-gradient-to-br from-[#12172A] to-[#1A2138] shadow-[0_30px_80px_-20px_rgba(90,79,224,0.5)]'
+                  : 'cursor-pointer border-white/10 bg-gradient-to-br from-[#12172A] to-[#161D32] shadow-2xl'
               }`}
             >
               {/* Glowing top accent on the active card. */}
@@ -122,7 +122,7 @@ export function TestimonialCarousel({ testimonials }: TestimonialCarouselProps) 
                   </div>
                   <span
                     className={`inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-primary/15 text-brand-teal transition-shadow ${
-                      isActive ? 'shadow-[0_0_28px_rgba(50,154,146,0.55)]' : ''
+                      isActive ? 'shadow-[0_0_28px_rgba(90,79,224,0.55)]' : ''
                     }`}
                   >
                     <Quote size={18} />

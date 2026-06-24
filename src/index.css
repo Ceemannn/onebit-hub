@@ -1,64 +1,142 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500;700&family=Poppins:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================================
+   Onebit — design tokens (mirror of the design-system colors_and_type.css)
+   One bit → systems, people, opportunity.
+   ============================================================================ */
 :root {
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  color: #343844;
-  background-color: #F9FAFB;
+  /* primary · indigo */
+  --indigo-50: #EEEDFB;
+  --indigo-100: #DAD6F7;
+  --indigo-300: #A99FEF;
+  --indigo-500: #5A4FE0;
+  --indigo-600: #4A3FCB;
+  --indigo-700: #392FA6;
+  --indigo-900: #231C66;
+  /* action · gold */
+  --gold-300: #FFD98A;
+  --gold-400: #FFC247;
+  --gold-500: #F5A623;
+  --gold-600: #D8860B;
+  /* arms */
+  --arm-build: #5A4FE0;
+  --arm-learn: #13B97A;
+  --arm-bridge: #F5A623;
+  --emerald-500: #13B97A;
+  /* neutrals */
+  --ink-950: #0B0E1A;
+  --ink-900: #12172A;
+  --slate-700: #33415C;
+  --slate-500: #64748B;
+  --slate-300: #CBD3E1;
+  --slate-100: #EEF1F7;
+  --paper-50: #F9FAFC;
+  /* gradients */
+  --gradient-brand: linear-gradient(135deg, #392FA6 0%, #5A4FE0 55%, #13B97A 100%);
+  --gradient-spark: radial-gradient(circle at 70% 30%, rgba(245, 166, 35, .35), transparent 45%);
+  /* semantic — light */
+  --bg: var(--paper-50);
+  --surface: #ffffff;
+  --fg: var(--ink-900);
+  --fg-body: var(--slate-700);
+  --fg-muted: var(--slate-500);
+  --border: var(--slate-300);
+  --border-soft: #E2E8F2;
+  /* type */
+  --font-display: 'Sora', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  font-family: var(--font-body);
+  color: var(--fg-body);
+  background-color: var(--bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+/* semantic — dark */
+.dark {
+  --bg: var(--ink-950);
+  --surface: var(--ink-900);
+  --fg: #ffffff;
+  --fg-body: #C7D0E0;
+  --fg-muted: #8A96AE;
+  --border: #283250;
+  --border-soft: #1F2840;
+  color: #C7D0E0;
+  background-color: var(--ink-950);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  background-color: #F9FAFB;
-  color: #343844;
+  background-color: var(--bg);
+  color: var(--fg-body);
+  font-family: var(--font-body);
 }
 
-code,
-pre {
-  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
-    'Courier New', monospace;
-}
-
-.dark {
-  color: #F9FAFB;
-  background-color: #1C1E24;
+code, pre {
+  font-family: var(--font-mono);
 }
 
 * {
   box-sizing: border-box;
 }
 
-/* Accessibility: Better focus indicators */
+::selection {
+  background: var(--indigo-300);
+  color: var(--ink-950);
+}
+
+/* Accessibility: focus indicators (indigo) */
 *:focus-visible {
-  outline: 2px solid #329A92;
+  outline: 2px solid var(--indigo-500);
   outline-offset: 2px;
   border-radius: 4px;
 }
 
 button:focus-visible,
 a:focus-visible {
-  outline: 2px solid #329A92;
+  outline: 2px solid var(--indigo-500);
   outline-offset: 2px;
 }
 
-/* Screen reader only class */
+/* Mono eyebrow helper */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--indigo-600);
+}
+
+.dark .eyebrow {
+  color: var(--indigo-300);
+}
+
+/* Gradient-clipped text (large headlines only) */
+.grad-text {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Screen reader only */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -72,28 +150,23 @@ a:focus-visible {
 }
 
 .glass-panel {
-  backdrop-filter: blur(24px);
-  background: rgba(28, 30, 36, 0.75);
+  backdrop-filter: blur(16px) saturate(1.4);
+  background: rgba(18, 23, 42, 0.72);
 }
 
 .light-card {
-  background: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(52, 56, 68, 0.05);
+  background: #ffffff;
+  border: 1px solid var(--border-soft);
 }
 
 .dark-card {
-  background: rgba(28, 30, 36, 0.9);
-  border: 1px solid rgba(249, 250, 251, 0.08);
+  background: var(--ink-900);
+  border: 1px solid #222a44;
 }
 
 @keyframes trust-marquee {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-50%);
-  }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 .trust-marquee {
@@ -101,53 +174,51 @@ a:focus-visible {
   animation: trust-marquee 28s linear infinite;
 }
 
-/* Orbital timeline custom styles */
+/* Orbital timeline */
 .bg-gradient-orbital {
-  background: linear-gradient(to bottom right, #6366f1, #3b82f6, #14b8a6);
+  background: var(--gradient-brand);
 }
 
 .shadow-orbital {
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 15px rgba(169, 159, 239, 0.18);
 }
 
+/* Arm feature visuals — tinted to the new palette */
 .arm-visual {
   position: absolute;
   inset: 0;
   background-size: cover;
   background-position: center;
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
 .arm-visual--bridge {
   background-image:
-    linear-gradient(135deg, rgba(15, 23, 42, 0.25), transparent 70%),
-    radial-gradient(circle at 10% 20%, rgba(6, 182, 212, 0.4), transparent 60%),
-    radial-gradient(circle at 80% 80%, rgba(12, 99, 255, 0.4), transparent 55%),
+    linear-gradient(135deg, rgba(11, 14, 26, 0.35), transparent 70%),
+    radial-gradient(circle at 10% 20%, rgba(245, 166, 35, 0.42), transparent 60%),
+    radial-gradient(circle at 80% 80%, rgba(90, 79, 224, 0.42), transparent 55%),
     url('./assets/onebit-bridge.jpg');
 }
 
 .arm-visual--build {
   background-image:
-    linear-gradient(135deg, rgba(15, 23, 42, 0.25), transparent 70%),
-    radial-gradient(circle at 0% 0%, rgba(245, 158, 11, 0.5), transparent 55%),
-    radial-gradient(circle at 90% 30%, rgba(12, 99, 255, 0.45), transparent 55%),
+    linear-gradient(135deg, rgba(11, 14, 26, 0.35), transparent 70%),
+    radial-gradient(circle at 0% 0%, rgba(90, 79, 224, 0.5), transparent 55%),
+    radial-gradient(circle at 90% 30%, rgba(57, 47, 166, 0.5), transparent 55%),
     url('./assets/onebit-build.jpg');
 }
 
 .arm-visual--learn {
   background-image:
-    linear-gradient(135deg, rgba(15, 23, 42, 0.25), transparent 70%),
-    radial-gradient(circle at 15% 80%, rgba(6, 182, 212, 0.5), transparent 55%),
-    radial-gradient(circle at 85% 10%, rgba(12, 99, 255, 0.5), transparent 55%),
+    linear-gradient(135deg, rgba(11, 14, 26, 0.35), transparent 70%),
+    radial-gradient(circle at 15% 80%, rgba(19, 185, 122, 0.5), transparent 55%),
+    radial-gradient(circle at 85% 10%, rgba(90, 79, 224, 0.5), transparent 55%),
     url('./assets/onebit-learn.jpg');
 }
 
 /* ----------------------------------------------------------------------------
    Micro-interactions & card styling
    ------------------------------------------------------------------------- */
-
-/* Cursor-following spotlight glow. Pair with a relatively-positioned,
-   overflow-hidden element and update --mx / --my on mousemove. */
 .spotlight-card {
   position: relative;
 }
@@ -159,7 +230,7 @@ a:focus-visible {
   border-radius: inherit;
   background: radial-gradient(
     240px circle at var(--mx, 50%) var(--my, 50%),
-    rgba(50, 154, 146, 0.16),
+    rgba(90, 79, 224, 0.16),
     transparent 60%
   );
   opacity: 0;
@@ -172,8 +243,7 @@ a:focus-visible {
   opacity: 1;
 }
 
-/* Animated gradient border that fades in on hover (mask trick keeps interior
-   transparent so only the 1px ring is painted). */
+/* Gradient glow ring on hover (indigo → emerald) */
 .glow-border::after {
   content: '';
   position: absolute;
@@ -182,9 +252,9 @@ a:focus-visible {
   padding: 1px;
   background: linear-gradient(
     130deg,
-    rgba(50, 154, 146, 0.7),
-    rgba(6, 182, 212, 0.5),
-    rgba(95, 193, 184, 0.2) 70%
+    rgba(90, 79, 224, 0.75),
+    rgba(19, 185, 122, 0.55),
+    rgba(169, 159, 239, 0.2) 70%
   );
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
@@ -200,14 +270,9 @@ a:focus-visible {
   opacity: 1;
 }
 
-/* Animated gradient text (used on accent headings). */
 @keyframes gradient-pan {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 200% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
 }
 
 .animate-gradient-text {
@@ -215,31 +280,20 @@ a:focus-visible {
   animation: gradient-pan 6s linear infinite;
 }
 
-/* Pulsing "live" indicator dot. */
+/* "Live" indicator dot (emerald) */
 @keyframes live-pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.55);
-  }
-  70% {
-    box-shadow: 0 0 0 7px rgba(6, 182, 212, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(6, 182, 212, 0);
-  }
+  0% { box-shadow: 0 0 0 0 rgba(19, 185, 122, 0.55); }
+  70% { box-shadow: 0 0 0 7px rgba(19, 185, 122, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(19, 185, 122, 0); }
 }
 
 .live-dot {
   animation: live-pulse 2.4s ease-out infinite;
 }
 
-/* Hero demo auto-advance progress bar. */
 @keyframes demo-progress {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
 }
 
 .demo-progress-bar {
@@ -247,13 +301,36 @@ a:focus-visible {
   animation: demo-progress 7s linear forwards;
 }
 
-/* Respect users who prefer reduced motion. */
+.arm-progress-bar {
+  transform-origin: left;
+  animation: demo-progress 5s linear forwards;
+}
+
+/* Drifting aurora blobs for ink sections */
+@keyframes aurora-drift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  33%  { transform: translate3d(40px, -30px, 0) scale(1.15); }
+  66%  { transform: translate3d(-30px, 20px, 0) scale(0.92); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+
+.aurora-blob {
+  animation: aurora-drift 18s ease-in-out infinite;
+}
+
+/* Skeleton shimmer */
+@keyframes skeleton {
+  100% { transform: translateX(100%); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .trust-marquee,
   .animate-floaty,
   .animate-gradient-text,
   .live-dot,
-  .demo-progress-bar {
+  .demo-progress-bar,
+  .arm-progress-bar,
+  .aurora-blob {
     animation: none !important;
   }
 }

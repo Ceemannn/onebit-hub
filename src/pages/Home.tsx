@@ -3,9 +3,14 @@ import { ArrowUpRight, Play } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Button } from '../components/ui/button.tsx'
 import { SectionHeading } from '../components/shared/SectionHeading.tsx'
-import { SegmentedTabs } from '../components/shared/SegmentedTabs.tsx'
 import { TestimonialCarousel } from '../components/shared/TestimonialCarousel.tsx'
-import DotGrid from '../components/shared/DotGrid.tsx'
+import { HeroConstellation } from '../components/shared/HeroConstellation.tsx'
+import { DemoReelVisual } from '../components/shared/DemoReelVisual.tsx'
+import { CountUp } from '../components/shared/CountUp.tsx'
+import { Magnetic, TiltCard } from '../components/shared/interactions.tsx'
+import { DecodeText } from '../components/shared/DecodeText.tsx'
+import { Aurora } from '../components/shared/Aurora.tsx'
+import { ArmFlow } from '../components/shared/ArmFlow.tsx'
 import {
   heroPillars,
   heroStats,
@@ -81,52 +86,39 @@ export function HomePage() {
     }
   }
 
-  // Prepare tabs data for SegmentedTabs
-  const armTabs = onebitArms.map((arm) => ({
-    key: arm.key,
-    label: arm.key.charAt(0).toUpperCase() + arm.key.slice(1),
-  }))
+  const activeArm = onebitArms[activeArmIndex]
 
   return (
     <div className="space-y-24">
       <section ref={heroRef} className="relative overflow-hidden min-h-screen flex items-center">
-        <div className="absolute inset-0 -z-10 opacity-10">
-          <DotGrid
-            dotSize={5}
-            gap={10}
-            baseColor="#0C63FF"
-            activeColor="#06B6D4"
-            proximity={120}
-            shockRadius={250}
-            shockStrength={5}
-            resistance={750}
-            returnDuration={1.5}
-            className="h-full w-full"
-          />
-        </div>
+        <HeroConstellation className="absolute inset-0 -z-10 h-full w-full opacity-70 dark:opacity-90" />
         <div className="animate-floaty pointer-events-none absolute -left-40 -top-40 h-80 w-80 rounded-full bg-brand-primary/10 blur-3xl" />
         <div className="animate-floaty pointer-events-none absolute -right-40 top-40 h-80 w-80 rounded-full bg-brand-teal/10 blur-3xl [animation-delay:3s]" />
         <div className="container relative grid gap-10 py-16 md:grid-cols-2 md:items-center lg:gap-16 lg:py-24">
           <div className="space-y-6 lg:space-y-8 max-w-xl" data-animate>
-            <p className="text-[0.7rem] font-medium uppercase tracking-[0.35em] text-brand-teal/80">
-              Onebit Hub
-            </p>
-            <h1 className="text-4xl font-semibold leading-tight text-neutral-900 dark:text-white md:text-5xl lg:text-6xl">
-              Onebit - Build. Learn. Grow. Lead.
+            <p className="eyebrow">Onebit Hub</p>
+            <h1 className="font-heading text-4xl font-bold leading-[1.05] tracking-tight text-neutral-900 dark:text-white md:text-5xl lg:text-[4rem]">
+              <DecodeText text="Build. Learn." className="grad-text" />
+              <br />
+              <DecodeText text="Grow. Lead." speed={34} />
             </h1>
-            <p className="text-sm text-neutral-700 dark:text-neutral-200 md:text-base">
-              Watch live sandboxes of our credit, HR, and forecasting systems while discovering the learning and
-              talent engine behind them.
+            <p className="max-w-md text-base leading-relaxed text-neutral-700 dark:text-neutral-300 md:text-lg">
+              One unit of technology — the systems it builds, the people it grows, and the
+              opportunities it opens. Africa-first, built to a global standard.
             </p>
             <div className="flex flex-wrap items-center gap-3 md:gap-4">
-              <Button size="lg" className="shadow-card shadow-brand-primary/30 text-sm md:text-base px-5 md:px-6">
-                Get Started with Onebit
-              </Button>
-              <Button asChild size="lg" variant="secondary" className="text-sm md:text-base px-5 md:px-6">
-                <Link to="/build/projects" className="inline-flex items-center gap-2">
-                  Explore Our Work <ArrowUpRight size={16} />
-                </Link>
-              </Button>
+              <Magnetic>
+                <Button asChild size="lg" className="text-sm md:text-base px-5 md:px-6">
+                  <Link to="/contact">Get Started with Onebit</Link>
+                </Button>
+              </Magnetic>
+              <Magnetic strength={0.25}>
+                <Button asChild size="lg" variant="secondary" className="text-sm md:text-base px-5 md:px-6">
+                  <Link to="/build/projects" className="inline-flex items-center gap-2">
+                    Explore Our Work <ArrowUpRight size={16} />
+                  </Link>
+                </Button>
+              </Magnetic>
               <Button asChild size="icon" variant="ghost" className="border border-white/10 bg-white/40">
                 <Link to="/build/demo">
                   <Play size={16} />
@@ -156,7 +148,7 @@ export function HomePage() {
             </div>
           </div>
           <div
-            className="glow-border relative space-y-5 rounded border border-neutral-900/10 bg-gradient-to-b from-white/80 to-white/40 p-5 shadow-card transition-shadow duration-500 hover:shadow-[0_30px_70px_rgba(50,154,146,0.25)] dark:border-white/10 dark:from-neutral-900/80 dark:to-neutral-900/60"
+            className="glow-border relative space-y-5 rounded border border-neutral-900/10 bg-gradient-to-b from-white/80 to-white/40 p-5 shadow-card transition-shadow duration-500 hover:shadow-[0_30px_70px_rgba(90,79,224,0.25)] dark:border-white/10 dark:from-neutral-900/80 dark:to-neutral-900/60"
             data-animate
             onMouseEnter={() => setIsDemoPaused(true)}
             onMouseLeave={() => setIsDemoPaused(false)}
@@ -175,14 +167,16 @@ export function HomePage() {
                     key={stat.label}
                     className="rounded border border-white/40 bg-white/60 px-3 py-1.5 text-right text-[0.65rem] dark:border-white/10 dark:bg-white/10"
                   >
-                    <p className="text-xs font-semibold text-neutral-900 dark:text-white md:text-sm">{stat.value}</p>
+                    <p className="text-xs font-semibold text-neutral-900 dark:text-white md:text-sm">
+                      <CountUp value={stat.value} />
+                    </p>
                     <p className="text-[0.55rem] uppercase tracking-[0.25em] text-neutral-500">{stat.label}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="relative mt-2 h-[240px] overflow-hidden rounded border border-neutral-900/10 bg-neutral-950/90 text-white shadow-inner md:h-[260px] lg:h-[280px]">
+            <div className="relative mt-2 h-[320px] overflow-hidden rounded border border-neutral-900/10 bg-neutral-950/90 text-white shadow-inner md:h-[340px]">
               {demoWidgets.map((demo, index) => {
                 const isActive = index === activeDemoIndex
                 return (
@@ -198,8 +192,9 @@ export function HomePage() {
                         <span className="live-dot h-1.5 w-1.5 rounded-full bg-brand-teal" />
                         <span>Interactive sandbox</span>
                       </div>
-                      <h2 className="text-2xl font-semibold leading-snug">{demo.title}</h2>
-                      <p className="max-w-md text-sm text-white/80">{demo.description}</p>
+                      <h2 className="text-xl font-semibold leading-snug md:text-2xl">{demo.title}</h2>
+                      <p className="max-w-md text-xs text-white/80 md:text-sm">{demo.description}</p>
+                      <DemoReelVisual index={index} active={isActive} />
                     </div>
                     <div className="flex items-center justify-between gap-4">
                       <Link
@@ -270,7 +265,7 @@ export function HomePage() {
 
       <section
         ref={trustRef}
-        className="relative w-full min-h-screen overflow-hidden bg-surface py-12 dark:bg-neutral-950/90 flex items-center"
+        className="relative w-full overflow-hidden bg-surface py-16 dark:bg-neutral-950/90 lg:py-24"
       >
         <div className="pointer-events-none absolute inset-0 opacity-10">
           <img
@@ -279,81 +274,120 @@ export function HomePage() {
             className="h-full w-full object-cover object-center"
           />
         </div>
-        <div className="container relative space-y-12 lg:space-y-14">
-          <div className="max-w-3xl space-y-3" data-animate>
-            {/* <p className="text-xs uppercase tracking-[0.35em] text-brand-teal/80">Why Onebit?</p> */}
-            <h2 className="animate-gradient-text text-3xl font-extrabold text-transparent bg-gradient-to-r from-brand-primary via-brand-teal to-brand-primary bg-clip-text drop-shadow-[0_0_22px_rgba(6,182,212,0.6)] md:text-4xl lg:text-[2.5rem]">
-              Why Onebit?
+        <div className="container relative space-y-10 lg:space-y-12">
+          <div className="mx-auto max-w-3xl space-y-3 text-center" data-animate>
+            <p className="eyebrow">Why Onebit?</p>
+            <h2 className="animate-gradient-text bg-gradient-to-r from-indigo-600 via-emerald-500 to-indigo-600 bg-clip-text text-3xl font-bold text-transparent md:text-4xl lg:text-[2.5rem]">
+              Engineered intelligence, built for people.
             </h2>
             <p className="text-sm text-neutral-700 dark:text-neutral-200 md:text-base">
               We partner with ambitious teams to design resilient systems, upscale their people, and connect finished
               talent to opportunities.
             </p>
           </div>
-          <div className="grid gap-10 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1.3fr)] md:items-center lg:gap-16">
-            <div className="space-y-7 lg:space-y-8 max-w-xl" data-animate>
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div className="inline-flex items-center gap-3 rounded-lg bg-white/80 px-5 py-2.5 text-sm font-medium text-neutral-800 shadow-soft dark:bg-neutral-900/80 dark:text-neutral-100">
-                  <span className="flex h-9 w-9 items-center justify-center rounded bg-gradient-to-br from-brand-primary to-brand-teal text-white text-xs font-semibold">
-                    OB
-                  </span>
-                  <span className="text-[0.7rem] uppercase tracking-[0.32em] text-neutral-500">Onebit Hub</span>
+
+          {/* Large swapping visual for the active arm */}
+          <div
+            className="relative overflow-hidden rounded-2xl border border-neutral-900/10 shadow-card dark:border-white/10"
+            data-animate
+          >
+            <div className="relative aspect-[16/10] w-full bg-neutral-900 sm:aspect-[16/8] lg:aspect-[16/6]">
+              {onebitArms.map((arm) => (
+                <div
+                  key={arm.key}
+                  aria-hidden={arm.key !== activeArm.key}
+                  className={`absolute inset-0 transition-opacity duration-700 ease-out ${
+                    arm.key === activeArm.key ? 'opacity-100' : 'opacity-0'
+                  }`}
+                >
+                  <div className={`arm-visual arm-visual--${arm.key}`} />
                 </div>
-                <SegmentedTabs
-                  tabs={armTabs}
-                  activeKey={onebitArms[activeArmIndex].key}
-                  onChange={handleArmTabChange}
-                  size="sm"
-                />
+              ))}
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+              <div className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full bg-black/40 px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.28em] text-white backdrop-blur">
+                <span className="live-dot h-1.5 w-1.5 rounded-full bg-brand-teal" />
+                {activeArm.label}
               </div>
-              {(() => {
-                const arm = onebitArms[activeArmIndex]
-                return (
-                  <>
-                    <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-teal/80 lg:text-sm">
-                      {arm.label}
-                    </p>
-                    <h2 className="mt-2 text-3xl font-semibold text-neutral-900 dark:text-white md:text-4xl lg:text-[2.6rem] lg:leading-tight">
-                      {arm.heading}
-                    </h2>
-                    <p className="mt-4 text-sm text-neutral-700 dark:text-neutral-200 md:text-base lg:max-w-xl">
-                      {arm.description}
-                    </p>
-                    <div className="mt-5">
-                      <Link
-                        to={arm.href}
-                        className="group inline-flex items-center text-sm font-semibold text-brand-primary dark:text-brand-teal"
-                      >
-                        <span className="relative inline-flex items-center gap-2 rounded-full border border-transparent px-0 py-0 text-sm transition group-hover:border-brand-primary group-hover:bg-brand-primary/5 group-hover:px-3 group-hover:py-1 dark:group-hover:border-brand-teal">
-                          <span>{arm.cta}</span>
-                          <ArrowUpRight
-                            size={14}
-                            className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                          />
-                        </span>
-                      </Link>
-                    </div>
-                  </>
-                )
-              })()}
             </div>
-            <div className="space-y-5 lg:space-y-6" data-animate>
-              <div
-                className="relative overflow-hidden rounded border border-neutral-900/10 bg-neutral-900 p-0 text-white shadow-card dark:border-white/10 md:min-h-[280px] lg:min-h-[320px]"
-              >
-                {onebitArms[activeArmIndex].key === 'bridge' && <div className="arm-visual arm-visual--bridge" />}
-                {onebitArms[activeArmIndex].key === 'build' && <div className="arm-visual arm-visual--build" />}
-                {onebitArms[activeArmIndex].key === 'learn' && <div className="arm-visual arm-visual--learn" />}
-                <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/10 blur-3xl" />
+          </div>
+
+          {/* Stepped progress-bar navigation */}
+          <div className="grid grid-cols-3 gap-4 md:gap-6" data-animate>
+            {onebitArms.map((arm, index) => {
+              const isActive = index === activeArmIndex
+              return (
+                <button
+                  key={arm.key}
+                  type="button"
+                  onClick={() => handleArmTabChange(arm.key)}
+                  aria-label={`Show ${arm.label}`}
+                  aria-current={isActive}
+                  className="group text-left"
+                >
+                  <span className="block h-1 w-full overflow-hidden rounded-full bg-neutral-900/10 dark:bg-white/15">
+                    {isActive && (
+                      <span
+                        key={activeArmIndex}
+                        style={{ animationPlayState: armAutoRotate ? 'running' : 'paused' }}
+                        className="arm-progress-bar block h-full w-full rounded-full bg-gradient-to-r from-brand-primary to-brand-teal"
+                      />
+                    )}
+                  </span>
+                  <span className="mt-3 flex items-center gap-2 text-xs font-semibold">
+                    <span className={isActive ? 'text-brand-primary dark:text-brand-teal' : 'text-neutral-400 dark:text-neutral-500'}>
+                      0{index + 1}
+                    </span>
+                    <span
+                      className={`uppercase tracking-[0.18em] transition-colors ${
+                        isActive
+                          ? 'text-neutral-900 dark:text-white'
+                          : 'text-neutral-400 group-hover:text-neutral-600 dark:text-neutral-500'
+                      }`}
+                    >
+                      {arm.key}
+                    </span>
+                  </span>
+                </button>
+              )
+            })}
+          </div>
+
+          {/* Active step details */}
+          <div className="grid gap-8 md:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] md:items-center" data-animate>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-teal/80 lg:text-sm">
+                {activeArm.label}
+              </p>
+              <h3 className="mt-3 text-3xl font-semibold text-neutral-900 dark:text-white md:text-4xl lg:text-[2.5rem] lg:leading-tight">
+                {activeArm.heading}
+              </h3>
+              <p className="mt-4 text-sm text-neutral-700 dark:text-neutral-200 md:text-base lg:max-w-xl">
+                {activeArm.description}
+              </p>
+              <div className="mt-6">
+                <Link
+                  to={activeArm.href}
+                  className="group inline-flex items-center text-sm font-semibold text-brand-primary dark:text-brand-teal"
+                >
+                  <span className="relative inline-flex items-center gap-2 rounded-full border border-transparent px-0 py-0 text-sm transition group-hover:border-brand-primary group-hover:bg-brand-primary/5 group-hover:px-3 group-hover:py-1 dark:group-hover:border-brand-teal">
+                    <span>{activeArm.cta}</span>
+                    <ArrowUpRight
+                      size={14}
+                      className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                    />
+                  </span>
+                </Link>
               </div>
-              <div className="grid gap-4 rounded bg-[#06B6D4]/90 p-5 text-xs text-white md:grid-cols-3">
-                {onebitArms[activeArmIndex].stats.map((stat) => (
-                  <div key={stat.label} className="space-y-1">
-                    <p className="text-sm font-semibold md:text-base lg:text-lg">{stat.value}</p>
-                    <p className="text-[0.7rem] uppercase tracking-[0.22em] text-white/80">{stat.label}</p>
-                  </div>
-                ))}
-              </div>
+            </div>
+            <div className="grid gap-4 rounded-xl bg-gradient-primary p-6 text-xs text-white shadow-glow-indigo sm:grid-cols-3 md:grid-cols-1 lg:grid-cols-3">
+              {activeArm.stats.map((stat) => (
+                <div key={stat.label} className="space-y-1">
+                  <p className="font-mono text-base font-bold md:text-lg lg:text-xl">
+                    <CountUp value={stat.value} />
+                  </p>
+                  <p className="text-[0.7rem] uppercase tracking-[0.22em] text-white/80">{stat.label}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -366,12 +400,13 @@ export function HomePage() {
           description="Three connected steps—build the system, train the people, bridge them to opportunity."
           align="center"
         />
+        <ArmFlow />
         <div className="grid gap-4 md:grid-cols-3">
           {pillars.map((pillar) => (
-            <button
+            <TiltCard
               key={pillar.title}
-              type="button"
-              className="glow-border group relative flex flex-col justify-between rounded border border-neutral-900/10 bg-white/80 p-5 text-left shadow-soft transition duration-300 hover:-translate-y-1 hover:border-brand-primary/40 hover:bg-white hover:shadow-card dark:border-white/10 dark:bg-neutral-900/80 dark:hover:border-brand-teal/50"
+              max={6}
+              className="glow-border spotlight-card group relative flex flex-col justify-between rounded-xl border border-neutral-900/10 bg-white/80 p-5 text-left shadow-soft hover:border-brand-primary/40 hover:bg-white hover:shadow-card dark:border-white/10 dark:bg-neutral-900/80 dark:hover:border-brand-teal/50"
               data-animate
             >
               <div>
@@ -399,7 +434,7 @@ export function HomePage() {
                   <ArrowUpRight size={14} />
                 </Link>
               </div>
-            </button>
+            </TiltCard>
           ))}
         </div>
       </section>
@@ -414,7 +449,7 @@ export function HomePage() {
         <div data-animate>
           <TestimonialCarousel testimonials={testimonials} />
         </div>
-        <div className="rounded border border-brand-primary/20 bg-gradient-to-r from-brand-primary/90 via-brand-teal/90 to-brand-primary/90 p-8 text-white shadow-card" data-animate>
+        <div className="relative overflow-hidden rounded-xl bg-gradient-primary p-8 text-white shadow-glow-indigo [background-image:var(--gradient-brand),var(--gradient-spark)]" data-animate>
           <div className="grid gap-6 md:grid-cols-[minmax(0,2fr)_minmax(0,1.1fr)] md:items-center">
             <div className="space-y-4">
               <p className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em]">
@@ -439,8 +474,13 @@ export function HomePage() {
         </div>
       </section>
 
-      <section ref={projectsRef} className="relative w-full bg-[#329A92] py-16">
-        <div className="container space-y-16">
+      <section ref={projectsRef} className="relative w-full overflow-hidden bg-ink-950 py-16">
+        <Aurora />
+        <div
+          className="pointer-events-none absolute inset-0 text-white/[0.05] [background-image:radial-gradient(currentColor_1.1px,transparent_1.1px)] [background-size:26px_26px]"
+          aria-hidden
+        />
+        <div className="container relative space-y-16">
           {/* Build Projects Section */}
           <div className="space-y-8">
             <div className="max-w-3xl text-white">
@@ -467,9 +507,9 @@ export function HomePage() {
 
                 return (
                   <div key={project.title} className="group relative h-full">
-                    <article
-                      onMouseMove={handleSpotlight}
-                      className="spotlight-card glow-border relative flex h-full flex-col overflow-hidden rounded border border-neutral-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-neutral-800 dark:bg-neutral-900/50"
+                    <TiltCard
+                      max={5}
+                      className="spotlight-card glow-border relative flex h-full flex-col overflow-hidden rounded-xl border border-neutral-200 bg-white hover:shadow-xl dark:border-neutral-800 dark:bg-neutral-900/50"
                       data-animate
                     >
                       {/* Image area */}
@@ -500,7 +540,7 @@ export function HomePage() {
                           </Link>
                         </div>
                       </div>
-                    </article>
+                    </TiltCard>
                   </div>
                 )
               })}
@@ -577,8 +617,9 @@ export function HomePage() {
         </div>
       </section>
 
-      <section ref={aboutRef} className="container rounded border border-neutral-900/10 bg-gradient-to-r from-neutral-900 via-neutral-800 to-neutral-900 p-10 text-white shadow-card">
-        <div className="grid gap-6 md:grid-cols-2 md:items-center">
+      <section ref={aboutRef} className="container relative overflow-hidden rounded-xl border border-white/10 bg-ink-950 p-10 text-white shadow-card">
+        <Aurora />
+        <div className="relative grid gap-6 md:grid-cols-2 md:items-center">
           <div data-animate>
             <p className="text-xs uppercase tracking-[0.3em] text-white/60">About Onebit</p>
             <h3 className="mt-3 text-3xl font-semibold">Building technology. Developing people. Connecting opportunity.</h3>

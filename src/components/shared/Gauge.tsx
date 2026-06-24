@@ -34,8 +34,8 @@ export function Gauge({ value, max, label }: GaugeProps) {
         />
         <defs>
           <linearGradient id="gauge-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#06b6d4" />
-            <stop offset="100%" stopColor="#0c63ff" />
+            <stop offset="0%" stopColor="#5A4FE0" />
+            <stop offset="100%" stopColor="#13B97A" />
           </linearGradient>
         </defs>
       </svg>

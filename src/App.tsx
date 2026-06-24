@@ -1,8 +1,13 @@
 import { useEffect, lazy, Suspense } from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Header } from './components/layout/Header.tsx'
 import { Footer } from './components/layout/Footer.tsx'
 import { FloatingCta } from './components/layout/FloatingCta.tsx'
+import { CommandPalette } from './components/shared/CommandPalette.tsx'
+import { ScrollProgress } from './components/shared/ScrollProgress.tsx'
+import { CustomCursor } from './components/shared/CustomCursor.tsx'
+import { PageSkeleton } from './components/shared/Skeleton.tsx'
 import { initGsap } from './lib/gsap.ts'
 
 // Lazy load pages for code splitting and better performance
@@ -26,24 +31,39 @@ const ContactPage = lazy(() => import('./pages/Contact.tsx').then(m => ({ defaul
 const LegalPage = lazy(() => import('./pages/Legal.tsx').then(m => ({ default: m.LegalPage })))
 const NotFoundPage = lazy(() => import('./pages/NotFound.tsx').then(m => ({ default: m.NotFoundPage })))
 
-// Loading component
-const PageLoader = () => (
-  <div className="flex items-center justify-center min-h-screen">
-    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-primary"></div>
-  </div>
-)
+// Loading fallback — branded page skeleton
+const PageLoader = () => <PageSkeleton />
 
 function App() {
+  const location = useLocation()
+  const reduce = useReducedMotion()
+
   useEffect(() => {
     initGsap()
   }, [])
 
+  // Scroll to top on route change.
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
+  }, [location.pathname])
+
   return (
     <div className="min-h-screen bg-surface text-neutral-900 transition-colors duration-200 dark:bg-neutral-950 dark:text-surface">
+      <ScrollProgress />
+      <CustomCursor />
+      <CommandPalette />
       <Header />
       <main id="main-content" className="pt-24 pb-16">
         <Suspense fallback={<PageLoader />}>
-          <Routes>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={location.pathname}
+              initial={reduce ? false : { opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduce ? undefined : { opacity: 0, y: -8 }}
+              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <Routes location={location}>
             <Route path="/" element={<HomePage />} />
             <Route path="/build/projects" element={<ProjectsPage />} />
             <Route path="/build/services" element={<ServicesPage />} />
@@ -69,7 +89,9 @@ function App() {
             <Route path="/build" element={<Navigate to="/build/projects" replace />} />
             {/* 404 fallback */}
             <Route path="*" element={<NotFoundPage />} />
-          </Routes>
+              </Routes>
+            </motion.div>
+          </AnimatePresence>
         </Suspense>
       </main>
       <FloatingCta />

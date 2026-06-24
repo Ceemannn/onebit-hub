@@ -4,6 +4,8 @@ import { Menu, SunMedium, Moon, ArrowRight, X, ChevronDown } from 'lucide-react'
 import { cn } from '../../lib/utils.ts'
 import { useTheme } from '../../context/theme.tsx'
 import { buttonVariants } from '../ui/button.tsx'
+import { Logo } from '../shared/Logo.tsx'
+import { ThemeToggle } from '../shared/ThemeToggle.tsx'
 import { gsap } from '../../lib/gsap.ts'
 
 type MegaMenuKey = 'build' | 'learn' | 'bridge'
@@ -208,18 +210,7 @@ export function Header() {
       </a>
       <div className="container flex items-center justify-between py-4">
         <Link to="/" className="inline-flex items-center" aria-label="Onebit Hub">
-          <img
-            src="/onebit-logo-light.png"
-            alt="Onebit"
-            className="block h-9 w-auto dark:hidden"
-            draggable={false}
-          />
-          <img
-            src="/onebit-logo-dark.png"
-            alt="Onebit"
-            className="hidden h-9 w-auto dark:block"
-            draggable={false}
-          />
+          <Logo />
         </Link>
 
         <nav className="hidden items-center gap-8 text-sm font-medium md:flex">
@@ -298,12 +289,7 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
-          <button
-            onClick={toggleTheme}
-            className="rounded-full border border-neutral-900/10 p-2 text-neutral-700 transition hover:text-brand-primary dark:border-white/10 dark:text-white"
-          >
-            {theme === 'light' ? <Moon size={18} /> : <SunMedium size={18} />}
-          </button>
+          <ThemeToggle />
           <Link to="/contact" className={cn(buttonVariants({ size: 'sm' }), 'shadow-soft')}>Book a Call</Link>
         </div>
 

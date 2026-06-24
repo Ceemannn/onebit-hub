@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+﻿import { useMemo, useState } from 'react'
 import {
   ResponsiveContainer,
   LineChart,
@@ -114,12 +114,12 @@ export function DemoForecastPage() {
               <AreaChart data={data} margin={{ top: 16, left: -20, right: 12 }}>
                 <defs>
                   <linearGradient id="actualGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#0c63ff" stopOpacity={0.3} />
-                    <stop offset="95%" stopColor="#0c63ff" stopOpacity={0} />
+                    <stop offset="5%" stopColor="#5A4FE0" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="#5A4FE0" stopOpacity={0} />
                   </linearGradient>
                   <linearGradient id="forecastGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#F59E0B" stopOpacity={0.3} />
-                    <stop offset="95%" stopColor="#F59E0B" stopOpacity={0} />
+                    <stop offset="5%" stopColor="#F5A623" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="#F5A623" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
@@ -127,9 +127,9 @@ export function DemoForecastPage() {
                 <YAxis tick={{ fontSize: 12 }} />
                 <Tooltip />
                 {showHistoric && (
-                  <Area type="monotone" dataKey="actual" stroke="#0c63ff" strokeWidth={2} fillOpacity={1} fill="url(#actualGradient)" />
+                  <Area type="monotone" dataKey="actual" stroke="#5A4FE0" strokeWidth={2} fillOpacity={1} fill="url(#actualGradient)" />
                 )}
-                <Area type="monotone" dataKey="forecast" stroke="#F59E0B" strokeWidth={2} fillOpacity={1} fill="url(#forecastGradient)" />
+                <Area type="monotone" dataKey="forecast" stroke="#F5A623" strokeWidth={2} fillOpacity={1} fill="url(#forecastGradient)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>

@@ -2,6 +2,7 @@ import { forwardRef, type ReactNode } from 'react'
 import { ArrowLeft, ExternalLink } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import type { DemoProjectContent } from '../../../data/demos.ts'
+import { LiveDashboard } from '../../../components/shared/LiveDashboard.tsx'
 
 interface DemoPageLayoutProps {
   project: DemoProjectContent
@@ -42,6 +43,10 @@ export const DemoPageLayout = forwardRef<HTMLDivElement, DemoPageLayoutProps>(
         </section>
 
         <section className="container">{children}</section>
+
+        <section className="container">
+          <LiveDashboard slug={project.slug} />
+        </section>
 
         <section className="container grid gap-6 md:grid-cols-2">
           <article className="space-y-4 rounded-3xl border border-neutral-900/10 bg-white/90 p-6 shadow-soft dark:border-white/10 dark:bg-neutral-900/80">

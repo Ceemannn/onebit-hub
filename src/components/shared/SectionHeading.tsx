@@ -20,10 +20,10 @@ export function SectionHeading({ eyebrow, title, description, align = 'left', cl
       )}
     >
       {eyebrow && (
-        <p className="text-xs uppercase tracking-[0.3em] text-brand-teal/80">{eyebrow}</p>
+        <p className="font-mono text-xs uppercase tracking-[0.22em] text-indigo-600 dark:text-indigo-300">{eyebrow}</p>
       )}
-      <h2 className="text-3xl font-semibold text-neutral-900 dark:text-white md:text-4xl">{title}</h2>
-      {description && <p className="text-base text-neutral-600 dark:text-neutral-200">{description}</p>}
+      <h2 className="font-heading text-3xl font-bold tracking-tight text-neutral-900 dark:text-white md:text-4xl">{title}</h2>
+      {description && <p className="text-base leading-relaxed text-neutral-700 dark:text-neutral-300">{description}</p>}
     </div>
   )
 }

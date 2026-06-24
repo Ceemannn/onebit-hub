@@ -15,6 +15,8 @@ import { courseDetails } from '../../data/courseDetails.ts'
 import { Button } from '../../components/ui/button.tsx'
 import { useGsapReveal } from '../../hooks/useGsapReveal.ts'
 import { generateForexSyllabusPdf } from '../../lib/generateForexSyllabusPdf.ts'
+import { CourseInteractive } from '../../components/learn/CourseInteractive.tsx'
+import { useToast } from '../../components/shared/Toast.tsx'
 
 export function CourseDetailPage() {
     const { courseId } = useParams<{ courseId: string }>()
@@ -23,6 +25,7 @@ export function CourseDetailPage() {
     const course = courseId ? courseDetails[courseId] : null
     const containerRef = useGsapReveal<HTMLDivElement>()
     const [isDownloading, setIsDownloading] = useState(false)
+    const { toast } = useToast()
 
     // Handle syllabus download for Forex course
     const handleDownloadSyllabus = async () => {
@@ -121,10 +124,25 @@ export function CourseDetailPage() {
                                 </>
                             ) : (
                                 <>
-                                    <Button size="lg" className="bg-brand-primary hover:bg-brand-primary/90 text-white border-none">
+                                    <Button
+                                        size="lg"
+                                        className="bg-brand-primary hover:bg-brand-primary/90 text-white border-none"
+                                        onClick={() => navigate(`/learn/enroll/${courseId}`)}
+                                    >
                                         Enroll Now
                                     </Button>
-                                    <Button size="lg" variant="secondary" className="border-white/20 text-white hover:bg-white/10">
+                                    <Button
+                                        size="lg"
+                                        variant="secondary"
+                                        className="border-white/20 text-white hover:bg-white/10"
+                                        onClick={() =>
+                                            toast({
+                                                variant: 'info',
+                                                title: 'Syllabus on the way',
+                                                description: `We’ll email the ${course.title} syllabus — check your inbox.`,
+                                            })
+                                        }
+                                    >
                                         Download Syllabus
                                     </Button>
                                 </>
@@ -137,6 +155,9 @@ export function CourseDetailPage() {
             <div className="container mt-16 grid gap-12 lg:grid-cols-3">
                 {/* Main Content */}
                 <div className="lg:col-span-2 space-y-16">
+
+                    {/* Track-tailored interactive */}
+                    <CourseInteractive course={course} />
 
                     {/* Overview & Objectives */}
                     <section className="space-y-6">
@@ -331,7 +352,10 @@ export function CourseDetailPage() {
                         </div>
 
                         <div className="mt-8 pt-8 border-t border-neutral-100 dark:border-neutral-800">
-                            <Button className="w-full bg-brand-primary hover:bg-brand-primary/90 text-white">
+                            <Button
+                                className="w-full bg-brand-primary hover:bg-brand-primary/90 text-white"
+                                onClick={() => navigate(`/learn/enroll/${courseId}`)}
+                            >
                                 Apply Now <ArrowRight className="ml-2 h-4 w-4" />
                             </Button>
                             <p className="mt-3 text-center text-xs text-neutral-500">

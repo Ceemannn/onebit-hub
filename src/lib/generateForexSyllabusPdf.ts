@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Generates and downloads the Forex Trading Course Syllabus PDF
  * Uses jsPDF library for PDF generation
  */
@@ -266,33 +266,33 @@ const additionalSections: PdfSection[] = [
     title: 'Daily Habits for Success',
     content: [
       'Throughout the 6 weeks, commit to:',
-      '• 30-60 minutes of chart time daily',
-      '• Journaling at least 3 observations per day',
-      "• Reviewing one previous day's price action",
-      '• Asking questions in your learning community',
-      '• Avoiding live trading until Week 6 completion',
+      'â€¢ 30-60 minutes of chart time daily',
+      'â€¢ Journaling at least 3 observations per day',
+      "â€¢ Reviewing one previous day's price action",
+      'â€¢ Asking questions in your learning community',
+      'â€¢ Avoiding live trading until Week 6 completion',
     ],
   },
   {
     title: "Tools You'll Need",
     content: [
-      '• Trading Platform: MetaTrader 4/5 or TradingView',
-      '• Demo Account: Start with $10,000 virtual money',
-      '• Trading Journal: Spreadsheet or dedicated app',
-      '• Economic Calendar: ForexFactory or similar',
-      '• Learning Mindset: Patience and discipline',
+      'â€¢ Trading Platform: MetaTrader 4/5 or TradingView',
+      'â€¢ Demo Account: Start with $10,000 virtual money',
+      'â€¢ Trading Journal: Spreadsheet or dedicated app',
+      'â€¢ Economic Calendar: ForexFactory or similar',
+      'â€¢ Learning Mindset: Patience and discipline',
     ],
   },
   {
     title: 'Success Metrics',
     content: [
       'By the end of 6 weeks, you should be able to:',
-      '• Identify market structure confidently',
-      '• Spot order blocks and fair value gaps',
-      '• Understand liquidity concepts',
-      '• Execute trades with proper risk management',
-      '• Maintain a 1:2 minimum risk-reward ratio',
-      '• Complete top-down analysis independently',
+      'â€¢ Identify market structure confidently',
+      'â€¢ Spot order blocks and fair value gaps',
+      'â€¢ Understand liquidity concepts',
+      'â€¢ Execute trades with proper risk management',
+      'â€¢ Maintain a 1:2 minimum risk-reward ratio',
+      'â€¢ Complete top-down analysis independently',
     ],
   },
 ]
@@ -314,7 +314,7 @@ export async function generateForexSyllabusPdf(): Promise<void> {
   let y = margin
 
   // Colors
-  const primaryColor: [number, number, number] = [50, 154, 146] // #329A92
+  const primaryColor: [number, number, number] = [90, 79, 224] // #5A4FE0 indigo
   const darkColor: [number, number, number] = [52, 56, 68] // #343844
   const grayColor: [number, number, number] = [100, 100, 100]
 
@@ -342,7 +342,7 @@ export async function generateForexSyllabusPdf(): Promise<void> {
     // Tagline
     doc.setFontSize(7)
     doc.setFont('helvetica', 'normal')
-    doc.text('Build • Learn • Bridge', pageWidth - margin, 8, { align: 'right' })
+    doc.text('Build â€¢ Learn â€¢ Bridge', pageWidth - margin, 8, { align: 'right' })
 
     y = 20
   }
@@ -352,7 +352,7 @@ export async function generateForexSyllabusPdf(): Promise<void> {
     const footerY = pageHeight - 10
     doc.setFontSize(7)
     doc.setTextColor(...grayColor)
-    doc.text('© 2024 Onebit Hub. All rights reserved.', margin, footerY)
+    doc.text('Â© 2024 Onebit Hub. All rights reserved.', margin, footerY)
     doc.text('www.onebit.io | hello@onebit.io', pageWidth - margin, footerY, { align: 'right' })
   }
 
@@ -425,7 +425,7 @@ export async function generateForexSyllabusPdf(): Promise<void> {
 
       for (const topic of day.topics) {
         checkNewPage(6)
-        const lines = doc.splitTextToSize(`• ${topic}`, contentWidth - 10)
+        const lines = doc.splitTextToSize(`â€¢ ${topic}`, contentWidth - 10)
         doc.text(lines, margin + 8, y)
         y += lines.length * 4
       }

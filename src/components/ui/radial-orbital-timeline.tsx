@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+﻿import { useState, useEffect, useRef, useCallback } from 'react'
 import { ArrowRight } from 'lucide-react'
 import { Button } from './button.tsx'
 
@@ -154,7 +154,7 @@ export default function RadialOrbitalTimeline({
                 <div
                   className="absolute -inset-3 rounded-full"
                   style={{
-                    background: `radial-gradient(circle, rgba(50,154,146,0.25) 0%, transparent 70%)`,
+                    background: `radial-gradient(circle, rgba(90,79,224,0.25) 0%, transparent 70%)`,
                   }}
                 ></div>
 
@@ -187,7 +187,7 @@ export default function RadialOrbitalTimeline({
                   {item.title}
                 </div>
 
-                {/* Expanded card — mirrors original demo card layout */}
+                {/* Expanded card â€” mirrors original demo card layout */}
                 {isExpanded && (
                   <div
                     className="absolute left-1/2 top-24 w-72 -translate-x-1/2 rounded-3xl border border-neutral-900/10 bg-white/95 p-5 shadow-card backdrop-blur-lg dark:border-white/10 dark:bg-neutral-900/95"
